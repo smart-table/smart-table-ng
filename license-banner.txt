@@ -1,0 +1,4 @@
+/**
+ * @license smart-table-ng
+ * MIT license
+ */
