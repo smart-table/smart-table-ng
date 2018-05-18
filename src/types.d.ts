@@ -33,7 +33,22 @@ export interface SearchState {
     scope?: string[];
 }
 
+export interface ProxyDirective {
+    off: (eventName?: string) => ProxyDirective;
+}
+
 export interface SliceState {
     page?: number;
     size?: number;
+}
+
+export interface FilterDirective extends ProxyDirective {
+    filter: (input: string) => void;
+    onFilterChange: (callback: (state: Object) => void) => void;
+}
+
+export interface SortDirective extends ProxyDirective {
+    toggle: () => void;
+    state: () => SortState;
+    onSortToggle: (callback: (state: SortState) => void) => void;
 }

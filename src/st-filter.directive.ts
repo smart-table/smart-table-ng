@@ -2,7 +2,7 @@ import {Directive, Input, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {filter} from 'smart-table-core';
 import {fromEvent, Subscription} from 'rxjs/index';
-import {FilterOperator, FilterType} from './types';
+import {FilterOperator, FilterType, FilterDirective} from './types';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 
 @Directive({
@@ -10,7 +10,7 @@ import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
     exportAs: 'stFilter'
 })
 export class StFilterDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: FilterDirective;
     private _inputSubscription: Subscription;
 
     constructor(private table: SmartTable<T>, private _el: ElementRef) {

@@ -1,8 +1,8 @@
 import {Directive, Input, HostBinding, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
-import {SortDirection} from './types';
-import {Subscription, fromEvent} from "rxjs/index";
+import {SortDirection, SortDirective} from './types';
+import {Subscription, fromEvent} from 'rxjs/index';
 import {debounceTime} from 'rxjs/operators';
 
 @Directive({
@@ -10,7 +10,7 @@ import {debounceTime} from 'rxjs/operators';
     exportAs: 'stSort'
 })
 export class StSortDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: SortDirective;
     private _clickSubscription: Subscription;
 
     currentSortDirection: SortDirection = SortDirection.NONE;
@@ -41,7 +41,7 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
             table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
         });
         this._directive.onSortToggle(({direction, pointer}) => {
-            this.currentSortDirection = pointer === this.pointer ? direction : SortDirection.NONE;
+            this.currentSortDirection = pointer === this.pointer ? <SortDirection>direction : SortDirection.NONE;
         });
         this._clickSubscription = fromEvent(this._el.nativeElement, 'click')
             .pipe(debounceTime(this.delay))
