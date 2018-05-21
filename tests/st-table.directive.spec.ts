@@ -30,7 +30,6 @@ const fixtureData: User[] = [
     {name: 'Raymond', age: 35, email: 'nooo@bexample.com'}
 ];
 
-
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
 
