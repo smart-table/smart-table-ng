@@ -7,7 +7,7 @@ import {workingIndicator} from 'smart-table-core';
     exportAs: 'stWorking'
 })
 export class StWorkingDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: any;
 
     @HostBinding('class.st-working') isWorking = false;
 

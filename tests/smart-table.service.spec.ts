@@ -9,7 +9,7 @@ describe('Smart table service', () => {
 
         beforeEach(() => {
             spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState']);
-            instance = new SmartTable([], () => spy);
+            instance = SmartTable.of([], () => spy);
         });
 
         it('should proxy sort method', () => {
@@ -40,6 +40,6 @@ describe('Smart table service', () => {
         it('should proxy getTableStateMethod', () => {
             instance.getTableState();
             expect(spy.getTableState.calls.count()).toEqual(1);
-        })
+        });
     });
 });

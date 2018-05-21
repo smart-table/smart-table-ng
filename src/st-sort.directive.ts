@@ -1,7 +1,7 @@
 import {Directive, Input, HostBinding, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
-import {SortDirection, SortDirective} from './types';
+import {SortDirection} from './types';
 import {Subscription, fromEvent} from 'rxjs/index';
 import {debounceTime} from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import {debounceTime} from 'rxjs/operators';
     exportAs: 'stSort'
 })
 export class StSortDirective<T> implements OnInit, OnDestroy {
-    private _directive: SortDirective;
+    private _directive: any;
     private _clickSubscription: Subscription;
 
     currentSortDirection: SortDirection = SortDirection.NONE;

@@ -1,25 +1,33 @@
 import {table as stTable} from 'smart-table-core';
-import {SearchState, SliceState, SortState} from './types';
+import {SearchState, SliceState, SortState, StEvents} from './types';
 import {TableState} from './table-state';
 import {Injectable} from '@angular/core';
-import {ObservableInput, from, Observable} from 'rxjs/index';
+import {from, Subscription, Observable, ObservableInput, of} from 'rxjs/index';
 import {OnDestroy} from '@angular/core';
 
 @Injectable()
 export class SmartTable<T> implements OnDestroy {
-    private _directive;
+    private _directive: any;
+    private _subscription: Subscription;
     private _data: T[];
 
-    //todo add default tableState and defaultFactory (the table of smart-table)
-    public constructor(private source: ObservableInput<T[]>, factory: Function) {
+    static of<U>(data: U[], factory = stTable) {
+        return new SmartTable<U>(of(data), factory);
+    }
+
+    static from<U>(data: ObservableInput<U[]>, factory = stTable) {
+        return new SmartTable<U>(from(data), factory);
+    }
+
+    private constructor(private source: Observable<T[]>, factory: Function = stTable) {
         const dataArray: T[] = [];
         this._data = dataArray;
         this._directive = factory({data: dataArray, tableState: new TableState()});
     }
 
     init(): void {
-        this._directive.dispatch('EXEC_CHANGED', {working: true});
-        const subscription = from(this.source)
+        this._directive.dispatch(StEvents.EXEC_CHANGED, {working: true});
+        this._subscription = this.source
             .subscribe((data: T[]) => {
                 this._data.splice(0, 0, ...data);
                 this._directive.exec();
@@ -61,6 +69,7 @@ export class SmartTable<T> implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        return this._directive.off();
+        this._subscription.unsubscribe();
+        this._directive.off();
     }
 }

@@ -9,7 +9,7 @@ import {Subscription, fromEvent} from 'rxjs/index';
     exportAs: 'stSearch'
 })
 export class StSearchDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: any;
     private _inputSubscription: Subscription;
 
     constructor(private table: SmartTable<T>, private _el: ElementRef) {

@@ -7,10 +7,10 @@ import {slice} from 'smart-table-core';
     exportAs: 'stPagination'
 })
 export class StPaginationDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: any;
 
     page = 1;
-    size = 15;
+    size = 20;
     length: number;
 
     constructor(private table: SmartTable<T>) {
