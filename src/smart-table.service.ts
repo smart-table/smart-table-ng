@@ -2,44 +2,16 @@ import {table as stTable} from 'smart-table-core';
 import {SearchState, SliceState, SortState} from './types';
 import {TableState} from './table-state';
 import {Injectable} from '@angular/core';
-import {Observable, of, from} from 'rxjs/index';
-import {first} from 'rxjs/operators';
+import {ObservableInput, from, Observable} from 'rxjs/index';
 import {OnDestroy} from '@angular/core';
-
-interface SmartTableDataSource<T> {
-    fetch: () => Observable<T[]>;
-}
 
 @Injectable()
 export class SmartTable<T> implements OnDestroy {
     private _directive;
     private _data: T[];
 
-    static fromArray<U>(data: U[], factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return of(data);
-            }
-        }, factory);
-    }
-
-    static fromPromise<U>(data: Promise<U[]>, factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return from(data);
-            }
-        }, factory);
-    }
-
-    static fromObservable<U>(data: Observable<U[]>, factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return data;
-            }
-        }, factory);
-    }
-
-    private constructor(private source: SmartTableDataSource<T>, factory: Function) {
+    //todo add default tableState and defaultFactory (the table of smart-table)
+    public constructor(private source: ObservableInput<T[]>, factory: Function) {
         const dataArray: T[] = [];
         this._data = dataArray;
         this._directive = factory({data: dataArray, tableState: new TableState()});
@@ -47,11 +19,7 @@ export class SmartTable<T> implements OnDestroy {
 
     init(): void {
         this._directive.dispatch('EXEC_CHANGED', {working: true});
-        const subscription = this.source
-            .fetch()
-            .pipe(
-                first()
-            )
+        const subscription = from(this.source)
             .subscribe((data: T[]) => {
                 this._data.splice(0, 0, ...data);
                 this._directive.exec();
