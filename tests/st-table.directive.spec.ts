@@ -32,7 +32,6 @@ const fixtureData: User[] = [
 
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
-
     const createComponent = (template = `<ul stTable #list="stTable">
   <li *ngFor="let item of list.items">{{ item.value.name }}</li>
 </ul>`) => {

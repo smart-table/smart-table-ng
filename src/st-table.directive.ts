@@ -23,6 +23,7 @@ function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
     this.exec.emit(state);
 }
 
+
 @Directive({
     selector: '[stTable]',
     exportAs: 'stTable'
