@@ -1,7 +1,7 @@
 import {SmartTable} from '../src/smart-table.service';
 import {StTableDirective} from '../src/st-table.directive';
 import {Component} from '@angular/core';
-import {TestBed, tick, fakeAsync, tick} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
 @Component({
     template: `<ul stTable #list="stTable">
@@ -27,8 +27,8 @@ const fixtureData: User[] = [
     {name: 'Raymond', age: 35, email: 'nooo@bexample.com'}
 ];
 
-fdescribe('StTable directive', () => {
-    it('should have rendered the items', fakeAsync(() => {
+describe('StTable directive', () => {
+    it('should have rendered the items', done => {
         const instance = SmartTable.of(fixtureData);
         const fixture = TestBed.configureTestingModule({
             declarations: [StTableHostComponent, StTableDirective],
@@ -39,13 +39,13 @@ fdescribe('StTable directive', () => {
             .createComponent(StTableHostComponent);
 
         fixture.detectChanges();
-        tick(100);
-        fixture.detectChanges();
-        tick(100);
-        const component = fixture.componentInstance;
-        expect(component).toBeDefined();
-        const el: HTMLElement = fixture.nativeElement;
-        const itemsElement = el.querySelectorAll('li');
-        expect(itemsElement.length).toEqual(3);
-    }));
+        setTimeout(() => {
+            fixture.detectChanges();
+            const component = fixture.componentInstance;
+            const el: HTMLElement = fixture.nativeElement;
+            const items = el.querySelectorAll('li');
+            expect(items.length).toBe(3);
+            done();
+        }, 30);
+    });
 });

@@ -2,6 +2,28 @@ import {Directive, Output, EventEmitter, OnInit, NgZone, OnDestroy, AfterContent
 import {SmartTable} from './smart-table.service';
 import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from "./types";
 
+function handleSortChange<T>(this: StTableDirective<T>, state: SortState) {
+    this.sort.emit(state);
+}
+
+function handleDisplayChange<T>(this: StTableDirective<T>, items: DisplayedItem<T>[]) {
+    this.items = items;
+    this.display.emit(items);
+}
+
+function handleFilterChange<T>(this: StTableDirective<T>, state: any) {
+    this.filter.emit(state);
+}
+
+function handleSliceChange<T>(this: StTableDirective<T>, state: SliceState) {
+    this.slice.emit(state);
+}
+
+function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
+    this.exec.emit(state);
+}
+
+
 @Directive({
     selector: '[stTable]',
     exportAs: 'stTable'
@@ -9,43 +31,32 @@ import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from "./types
 export class StTableDirective<T> implements AfterContentInit, OnInit, OnDestroy {
     items: DisplayedItem<T>[] = [];
 
+    private displayHandler: Function;
+    private sortHandler: Function;
+    private filterHandler: Function;
+    private sliceHandler: Function;
+    private execHandler: Function;
+
     @Output() display = new EventEmitter<DisplayedItem<T>[]>();
     @Output() sort = new EventEmitter<SortState>();
     @Output() filter = new EventEmitter();
     @Output() slice = new EventEmitter<SliceState>();
     @Output() exec = new EventEmitter<ExecState>();
 
-    handleSortChange(state: SortState) {
-        this.sort.emit(state);
-    }
-
-    handleDisplayChange(items: DisplayedItem<T>[]) {
-        console.log('HANDLE DISPLAY');
-        this.items = items;
-        this.display.emit(items);
-    }
-
-    handleFilterChange(state: any) {
-        this.filter.emit(state);
-    }
-
-    handleSliceChange(state: SliceState) {
-        this.slice.emit(state);
-    }
-
-    handleExecChange(state: ExecState) {
-        this.exec.emit(state);
-    }
-
-    constructor(private table: SmartTable<T>, private zone: NgZone) {
+    constructor(private table: SmartTable<T>) {
     }
 
     ngOnInit() {
-        this.table.onDisplayChange(this.handleDisplayChange);
-        // this.table.on(StEvents.TOGGLE_SORT, this.handleSortChange);
-        // this.table.on(StEvents.FILTER_CHANGED, this.handleFilterChange);
-        // this.table.on(StEvents.PAGE_CHANGED, this.handleSliceChange);
-        // this.table.on(StEvents.EXEC_CHANGED, this.handleExecChange);
+        this.displayHandler = handleDisplayChange.bind(this);
+        this.sortHandler = handleSortChange.bind(this);
+        this.filterHandler = handleFilterChange.bind(this);
+        this.sliceHandler = handleSliceChange.bind(this);
+        this.execHandler = handleExecChange.bind(this);
+        this.table.onDisplayChange(this.displayHandler);
+        this.table.on(StEvents.TOGGLE_SORT, this.sortHandler);
+        this.table.on(StEvents.FILTER_CHANGED, this.filterHandler);
+        this.table.on(StEvents.PAGE_CHANGED, this.sliceHandler);
+        this.table.on(StEvents.EXEC_CHANGED, this.execHandler);
     }
 
     ngAfterContentInit() {
@@ -53,10 +64,10 @@ export class StTableDirective<T> implements AfterContentInit, OnInit, OnDestroy 
     }
 
     ngOnDestroy() {
-        this.table.off(StEvents.DISPLAY_CHANGED, this.handleDisplayChange);
-        this.table.off(StEvents.TOGGLE_SORT, this.handleSortChange);
-        this.table.off(StEvents.FILTER_CHANGED, this.handleFilterChange);
-        this.table.off(StEvents.PAGE_CHANGED, this.handleSliceChange);
-        this.table.off(StEvents.EXEC_CHANGED, this.handleExecChange);
+        this.table.off(StEvents.DISPLAY_CHANGED, this.displayHandler);
+        this.table.off(StEvents.TOGGLE_SORT, this.sortHandler);
+        this.table.off(StEvents.FILTER_CHANGED, this.filterHandler);
+        this.table.off(StEvents.PAGE_CHANGED, this.sliceHandler);
+        this.table.off(StEvents.EXEC_CHANGED, this.execHandler);
     }
 }
