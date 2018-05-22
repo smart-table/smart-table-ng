@@ -1,6 +1,6 @@
 import {Directive, Output, EventEmitter, OnInit, NgZone, OnDestroy, AfterContentInit} from '@angular/core';
 import {SmartTable} from './smart-table.service';
-import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from "./types";
+import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from './types';
 
 function handleSortChange<T>(this: StTableDirective<T>, state: SortState) {
     this.sort.emit(state);
@@ -30,7 +30,6 @@ function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
 })
 export class StTableDirective<T> implements AfterContentInit, OnInit, OnDestroy {
     items: DisplayedItem<T>[] = [];
-
     private displayHandler: Function;
     private sortHandler: Function;
     private filterHandler: Function;
