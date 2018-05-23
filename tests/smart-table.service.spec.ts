@@ -13,7 +13,6 @@ describe('Smart table service', () => {
         });
 
         it('should proxy sort method', () => {
-
             const input = {pointer: 'foo', direction: SortDirection.ASC};
             instance.sort(input);
             expect(spy.sort.calls.mostRecent().args).toEqual([{pointer: 'foo', direction: SortDirection.ASC}]);

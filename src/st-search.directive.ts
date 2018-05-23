@@ -32,7 +32,7 @@ export class StSearchDirective<T> implements OnInit, OnDestroy {
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )
-            .subscribe(v => this.search(v));
+            .subscribe((v: string) => this.search(v));
     }
 
     ngOnDestroy() {

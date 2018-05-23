@@ -11,7 +11,7 @@ export class SmartTable<T> implements OnDestroy {
     private _subscription: Subscription;
     private _data: T[];
 
-    static of<U>(data: U[], factory = stTable) {
+    static of<U>(data: U[] = [], factory = stTable) {
         return new SmartTable<U>(of(data), factory);
     }
 

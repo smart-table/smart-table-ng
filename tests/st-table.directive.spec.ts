@@ -2,6 +2,7 @@ import {SmartTable} from '../src/smart-table.service';
 import {StTableDirective} from '../src/st-table.directive';
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
+import {SortDirection} from "../src/types";
 
 @Component({})
 class StTableHostComponent {
@@ -15,8 +16,6 @@ class StTableHostComponent {
     handleEvent($event: any) {
         this.args = $event;
     }
-
-
 }
 
 interface User {
@@ -111,4 +110,59 @@ describe('StTable directive', () => {
         }, 45);
     });
 
+    it('should emit sort event', done => {
+        const fixture = createComponent(`<ul stTable (sort)="handleEvent($event)"></ul>`);
+        stInstance.sort({pointer: 'name', direction: SortDirection.ASC});
+        setTimeout(() => {
+            fixture.detectChanges();
+            const component = fixture.componentInstance;
+            expect(component.args).toEqual({
+                pointer: 'name',
+                direction: SortDirection.ASC
+            });
+            done();
+        }, 45);
+    });
+
+    it('should emit filter event', done => {
+        const fixture = createComponent(`<ul stTable (filter)="handleEvent($event)"></ul>`);
+        stInstance.filter({
+            foo: [{operator: 'lt', value: 'bar'}]
+        });
+        setTimeout(() => {
+            fixture.detectChanges();
+            const component = fixture.componentInstance;
+            expect(component.args).toEqual({
+                foo: [{operator: 'lt', value: 'bar'}]
+            });
+            done();
+        }, 45);
+    });
+
+    it('should emit the slice event', done => {
+        const fixture = createComponent(`<ul stTable (slice)="handleEvent($event)"></ul>`);
+        stInstance.slice({page: 1, size: 25});
+        setTimeout(() => {
+            fixture.detectChanges();
+            const component = fixture.componentInstance;
+            expect(component.args).toEqual({page: 1, size: 25});
+            done();
+        }, 45);
+    });
+
+    it('should emit the exec event', done => {
+        const fixture = createComponent(`<ul stTable (exec)="handleEvent($event)"></ul>`);
+        const component = fixture.componentInstance;
+        stInstance.slice({page: 1, size: 25});
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(component.args).toEqual({working: true});
+        }, 10);
+
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(component.args).toEqual({working: false});
+            done();
+        }, 45);
+    });
 });
