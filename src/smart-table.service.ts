@@ -68,6 +68,10 @@ export class SmartTable<T> implements OnDestroy {
         return this._directive.getTableState();
     }
 
+    getMatchingItems(): T[] {
+        return this._directive.getMatchingItems();
+    }
+
     ngOnDestroy(): void {
         this._subscription.unsubscribe();
         this._directive.off();

@@ -8,7 +8,7 @@ describe('Smart table service', () => {
         let instance: SmartTable<any>;
 
         beforeEach(() => {
-            spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState']);
+            spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState', 'getMatchingItems']);
             instance = SmartTable.of([], () => spy);
         });
 
@@ -39,6 +39,11 @@ describe('Smart table service', () => {
         it('should proxy getTableStateMethod', () => {
             instance.getTableState();
             expect(spy.getTableState.calls.count()).toEqual(1);
+        });
+
+        it('should proxy getMatchingItems', () => {
+            instance.getMatchingItems();
+            expect(spy.getMatchingItems.calls.count()).toEqual(1);
         });
     });
 });
