@@ -1,4 +1,4 @@
-{
+ {
   "name": "smart-table-ng",
   "version": "0.0.4",
   "description": "smart table binding for Angular",
@@ -92,8 +92,5 @@
     "sass-loader": "7.0.1",
     "to-string-loader": "1.1.5"
   },
-  "sideEffects": false,
-  "files": [
-    "dist"
-  ]
+  "sideEffects": false
 }
