@@ -6,4 +6,4 @@ export * from './st-search.directive';
 export * from './st-sort.directive';
 export * from './st-table.directive';
 export * from './table-state';
-export * from './types';
+export * from './commont-types';

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SortState, SliceState, SearchState} from './types';
+import {SortState, SliceState, SearchState} from './commont-types';
 
 @Injectable()
 export class TableState {

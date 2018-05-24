@@ -1,5 +1,5 @@
 import {table as stTable} from 'smart-table-core';
-import {SearchState, SliceState, SortState, StEvents} from './types';
+import {SearchState, SliceState, SortState, StEvents} from './commont-types';
 import {TableState} from './table-state';
 import {Injectable} from '@angular/core';
 import {from, Subscription, Observable, ObservableInput, of} from 'rxjs/index';

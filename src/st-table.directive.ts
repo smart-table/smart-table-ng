@@ -1,6 +1,6 @@
 import {Directive, Output, EventEmitter, OnInit, OnDestroy} from '@angular/core';
 import {SmartTable} from './smart-table.service';
-import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from './types';
+import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from './commont-types';
 
 function handleSortChange<T>(this: StTableDirective<T>, state: SortState) {
     this.sort.emit(state);

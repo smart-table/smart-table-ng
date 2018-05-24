@@ -2,7 +2,7 @@ import {Directive, Input, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {filter} from 'smart-table-core';
 import {fromEvent, Subscription} from 'rxjs/index';
-import {FilterOperator, FilterType} from './types';
+import {FilterOperator, FilterType} from './commont-types';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 
 @Directive({
@@ -37,7 +37,7 @@ export class StFilterDirective<T> implements OnInit, OnDestroy {
         });
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
-                map(<KeyboardEvent>($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
+                map(($event: any) => (<HTMLInputElement>$event.target).value),
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )
