@@ -1,6 +1,6 @@
 {
   "name": "smart-table-ng",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "smart table binding for Angular",
   "main": "./dist/bundles/smart-table-ng.umd.js",
   "module": "./dist/fesm5/smart-table-ng.js",
