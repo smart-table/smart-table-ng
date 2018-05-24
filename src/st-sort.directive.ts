@@ -1,4 +1,4 @@
-import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy, ElementRef} from '@angular/core';
+import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
 import {SortDirection, SortState} from './common-types';

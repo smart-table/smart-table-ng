@@ -20,7 +20,7 @@
     "compodoc": "compodoc -p tsconfig.json",
     "compodoc:serve": "compodoc -s"
   },
-  "author": "",
+  "author": "Laurent RENARD",
   "repository": {
     "type": "git",
     "url": "https://github.com/smart-table/smart-table-ng.git"
