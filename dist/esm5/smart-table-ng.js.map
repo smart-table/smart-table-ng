@@ -1,0 +1,1 @@
+{"version":3,"file":"smart-table-ng.js","sourceRoot":"","sources":["../smart-table-ng.ts"],"names":[],"mappings":";;;;;;;AAIA,yJAAc,cAAc,CAAC","sourcesContent":["/**\n * Generated bundle index. Do not edit.\n */\n\nexport * from './public_api';\n"]}
