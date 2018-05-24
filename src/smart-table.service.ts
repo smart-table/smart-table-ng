@@ -1,59 +1,46 @@
 import {table as stTable} from 'smart-table-core';
-import {SearchState, SliceState, SortState} from './types';
+import {SearchState, SliceState, SortState, StEvents} from './commont-types';
 import {TableState} from './table-state';
 import {Injectable} from '@angular/core';
-import {Observable, of, from} from 'rxjs/index';
-import {first} from 'rxjs/operators';
+import {from, Subscription, Observable, ObservableInput, of} from 'rxjs/index';
 import {OnDestroy} from '@angular/core';
-
-interface SmartTableDataSource<T> {
-    fetch: () => Observable<T[]>;
-}
 
 @Injectable()
 export class SmartTable<T> implements OnDestroy {
-    private _directive;
+    private _directive: any;
+    private _subscription: Subscription;
     private _data: T[];
 
-    static fromArray<U>(data: U[], factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return of(data);
-            }
-        }, factory);
+    static of<U>(data: U[] = [], tableState = new TableState(), factory = stTable) {
+        return new SmartTable<U>(of(data), tableState, factory);
     }
 
-    static fromPromise<U>(data: Promise<U[]>, factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return from(data);
-            }
-        }, factory);
+    static from<U>(data: ObservableInput<U[]>, tableState = new TableState(), factory = stTable) {
+        return new SmartTable<U>(from(data), tableState, factory);
     }
 
-    static fromObservable<U>(data: Observable<U[]>, factory = stTable): SmartTable<U> {
-        return new SmartTable({
-            fetch() {
-                return data;
-            }
-        }, factory);
-    }
-
-    private constructor(private source: SmartTableDataSource<T>, factory: Function) {
+    private constructor(private _source: Observable<T[]>, tableState: TableState, factory: Function) {
         const dataArray: T[] = [];
         this._data = dataArray;
-        this._directive = factory({data: dataArray, tableState: new TableState()});
+        this._directive = factory({data: dataArray, tableState});
     }
 
     init(): void {
-        this._directive.dispatch('EXEC_CHANGED', {working: true});
-        const subscription = this.source
-            .fetch()
-            .pipe(
-                first()
-            )
+        this._directive.dispatch(StEvents.EXEC_CHANGED, {working: true});
+        this._subscription = this._source
             .subscribe((data: T[]) => {
                 this._data.splice(0, 0, ...data);
+                this._directive.exec();
+            });
+    }
+
+    use(data: T[]) {
+        this._subscription.unsubscribe();
+        this._source = of(data);
+        this._directive.dispatch(StEvents.EXEC_CHANGED, {working: true});
+        this._subscription = this._source
+            .subscribe((values: T[]) => {
+                this._data.splice(0, 0, ...values);
                 this._directive.exec();
             });
     }
@@ -92,7 +79,12 @@ export class SmartTable<T> implements OnDestroy {
         return this._directive.getTableState();
     }
 
+    getMatchingItems(): T[] {
+        return this._directive.getMatchingItems();
+    }
+
     ngOnDestroy(): void {
-        return this._directive.off();
+        this._subscription.unsubscribe();
+        this._directive.off();
     }
 }

@@ -1,17 +1,15 @@
-import {Directive, Input, HostBinding, OnInit, OnDestroy, ElementRef} from '@angular/core';
+import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
-import {SortDirection, SortDirective} from './types';
-import {Subscription, fromEvent} from 'rxjs/index';
-import {debounceTime} from 'rxjs/operators';
+import {SortDirection, SortState} from './commont-types';
+
 
 @Directive({
     selector: '[stSort]',
     exportAs: 'stSort'
 })
 export class StSortDirective<T> implements OnInit, OnDestroy {
-    private _directive: SortDirective;
-    private _clickSubscription: Subscription;
+    private _directive: any;
 
     currentSortDirection: SortDirection = SortDirection.NONE;
 
@@ -22,8 +20,6 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
 
     @Input('stSortCycle') cycle: boolean | string = false;
 
-    @Input('stDebounceTime') delay = 100;
-
     @HostBinding('class.st-sort-asc') get isAsc() {
         return this.currentSortDirection === SortDirection.ASC;
     }
@@ -32,24 +28,20 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
         return this.currentSortDirection === SortDirection.DESC;
     }
 
-    toggle(): void {
-        return this._directive.toggle();
+    @HostListener('click') toggle(): void {
+        this._directive.toggle();
     }
 
     ngOnInit() {
         this._directive = sort({
             table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
         });
-        this._directive.onSortToggle(({direction, pointer}) => {
+        this._directive.onSortToggle(({direction, pointer}: SortState) => {
             this.currentSortDirection = pointer === this.pointer ? <SortDirection>direction : SortDirection.NONE;
         });
-        this._clickSubscription = fromEvent(this._el.nativeElement, 'click')
-            .pipe(debounceTime(this.delay))
-            .subscribe(() => this.toggle());
     }
 
     ngOnDestroy() {
         this._directive.off();
-        this._clickSubscription.unsubscribe();
     }
 }

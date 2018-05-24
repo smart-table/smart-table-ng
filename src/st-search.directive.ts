@@ -9,7 +9,7 @@ import {Subscription, fromEvent} from 'rxjs/index';
     exportAs: 'stSearch'
 })
 export class StSearchDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: any;
     private _inputSubscription: Subscription;
 
     constructor(private table: SmartTable<T>, private _el: ElementRef) {
@@ -28,11 +28,11 @@ export class StSearchDirective<T> implements OnInit, OnDestroy {
         this._directive = search({scope, table: this.table});
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
-                map(($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
+                map(($event: any) => ($event.target as HTMLInputElement).value),
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )
-            .subscribe(v => this.search(v));
+            .subscribe((v: string) => this.search(v));
     }
 
     ngOnDestroy() {

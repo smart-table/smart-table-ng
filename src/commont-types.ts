@@ -16,6 +16,17 @@ export const enum FilterOperator {
     NOT_EQUALS = 'notEquals'
 }
 
+export const enum StEvents {
+    TOGGLE_SORT = 'TOGGLE_SORT',
+    DISPLAY_CHANGED = 'DISPLAY_CHANGED',
+    PAGE_CHANGED = 'CHANGE_PAGE',
+    EXEC_CHANGED = 'EXEC_CHANGED',
+    FILTER_CHANGED = 'FILTER_CHANGED',
+    SUMMARY_CHANGED = 'SUMMARY_CHANGED',
+    SEARCH_CHANGED = 'SEARCH_CHANGED',
+    EXEC_ERROR = 'EXEC_ERROR',
+}
+
 export const enum FilterType {
     BOOLEAN = 'boolean',
     NUMBER = 'number',
@@ -28,27 +39,21 @@ export interface SortState {
     direction?: string;
 }
 
-export interface SearchState {
-    value?: string;
-    scope?: string[];
-}
-
-export interface ProxyDirective {
-    off: (eventName?: string) => ProxyDirective;
-}
-
 export interface SliceState {
     page?: number;
     size?: number;
 }
 
-export interface FilterDirective extends ProxyDirective {
-    filter: (input: string) => void;
-    onFilterChange: (callback: (state: Object) => void) => void;
+export interface ExecState {
+    working: boolean;
 }
 
-export interface SortDirective extends ProxyDirective {
-    toggle: () => void;
-    state: () => SortState;
-    onSortToggle: (callback: (state: SortState) => void) => void;
+export interface SearchState {
+    value?: string;
+    scope?: string[];
+}
+
+export interface DisplayedItem<T> {
+    value: T;
+    index: number;
 }

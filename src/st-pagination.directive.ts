@@ -2,15 +2,21 @@ import {Directive, OnInit, OnDestroy} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {slice} from 'smart-table-core';
 
+interface SummaryOutput {
+    page: number;
+    size: number;
+    filteredCount: number;
+}
+
 @Directive({
     selector: '[stPagination]',
     exportAs: 'stPagination'
 })
 export class StPaginationDirective<T> implements OnInit, OnDestroy {
-    private _directive;
+    private _directive: any;
 
     page = 1;
-    size = 15;
+    size = 20;
     length: number;
 
     constructor(private table: SmartTable<T>) {
@@ -18,7 +24,7 @@ export class StPaginationDirective<T> implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._directive = slice({table: this.table});
-        this._directive.onSummaryChange(({page, size, filteredCount}) => {
+        this._directive.onSummaryChange(({page, size, filteredCount}: SummaryOutput) => {
             this.page = page;
             this.size = size;
             this.length = filteredCount;
