@@ -11,25 +11,36 @@ export class SmartTable<T> implements OnDestroy {
     private _subscription: Subscription;
     private _data: T[];
 
-    static of<U>(data: U[] = [], factory = stTable) {
-        return new SmartTable<U>(of(data), factory);
+    static of<U>(data: U[] = [], tableState = new TableState(), factory = stTable) {
+        return new SmartTable<U>(of(data), tableState, factory);
     }
 
-    static from<U>(data: ObservableInput<U[]>, factory = stTable) {
-        return new SmartTable<U>(from(data), factory);
+    static from<U>(data: ObservableInput<U[]>, tableState = new TableState(), factory = stTable) {
+        return new SmartTable<U>(from(data), tableState, factory);
     }
 
-    private constructor(private source: Observable<T[]>, factory: Function = stTable) {
+    private constructor(private _source: Observable<T[]>, tableState: TableState, factory: Function) {
         const dataArray: T[] = [];
         this._data = dataArray;
-        this._directive = factory({data: dataArray, tableState: new TableState()});
+        this._directive = factory({data: dataArray, tableState});
     }
 
     init(): void {
         this._directive.dispatch(StEvents.EXEC_CHANGED, {working: true});
-        this._subscription = this.source
+        this._subscription = this._source
             .subscribe((data: T[]) => {
                 this._data.splice(0, 0, ...data);
+                this._directive.exec();
+            });
+    }
+
+    use(data: T[]) {
+        this._subscription.unsubscribe();
+        this._source = of(data);
+        this._directive.dispatch(StEvents.EXEC_CHANGED, {working: true});
+        this._subscription = this._source
+            .subscribe((values: T[]) => {
+                this._data.splice(0, 0, ...values);
                 this._directive.exec();
             });
     }

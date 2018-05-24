@@ -37,7 +37,7 @@ export class StFilterDirective<T> implements OnInit, OnDestroy {
         });
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
-                map(($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
+                map(<KeyboardEvent>($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )

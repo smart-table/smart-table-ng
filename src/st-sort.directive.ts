@@ -1,7 +1,7 @@
 import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
-import {SortDirection} from './types';
+import {SortDirection, SortState} from './types';
 
 
 @Directive({
@@ -36,7 +36,7 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
         this._directive = sort({
             table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
         });
-        this._directive.onSortToggle(({direction, pointer}) => {
+        this._directive.onSortToggle(({direction, pointer}: SortState) => {
             this.currentSortDirection = pointer === this.pointer ? <SortDirection>direction : SortDirection.NONE;
         });
     }

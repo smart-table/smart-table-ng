@@ -1,5 +1,6 @@
 import {SmartTable} from '../src/smart-table.service';
 import {SortDirection} from '../src/types';
+import {TableState} from "../src/table-state";
 
 describe('Smart table service', () => {
 
@@ -9,7 +10,7 @@ describe('Smart table service', () => {
 
         beforeEach(() => {
             spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState', 'getMatchingItems']);
-            instance = SmartTable.of([], () => spy);
+            instance = SmartTable.of([], new TableState(), () => spy);
         });
 
         it('should proxy sort method', () => {
@@ -44,6 +45,21 @@ describe('Smart table service', () => {
         it('should proxy getMatchingItems', () => {
             instance.getMatchingItems();
             expect(spy.getMatchingItems.calls.count()).toEqual(1);
+        });
+
+        it('should update data source when using use method', done => {
+            let displayedItems: any[];
+            const service = SmartTable.of<any>([]);
+            service.onDisplayChange((items: any[]) => displayedItems = items);
+            service.init();
+            setTimeout(() => {
+                expect(displayedItems).toEqual([]);
+                service.use([{id: 1}, {id: 2}]);
+            }, 30);
+            setTimeout(() => {
+                expect(displayedItems).toEqual([{index: 0, value: {id: 1}}, {index: 1, value: {id: 2}}]);
+                done();
+            }, 60);
         });
     });
 });
