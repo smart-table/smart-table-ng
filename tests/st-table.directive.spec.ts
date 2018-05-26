@@ -33,6 +33,10 @@ const fixtureData: User[] = [
 
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75df2b49f81071636c0cc7e7f82d8e2800f89475
     const createComponent = (template = `<ul stTable #list="stTable">
   <li *ngFor="let item of list.items">{{ item.value.name }}</li>
 </ul>`) => {
@@ -164,6 +168,7 @@ describe('StTable directive', () => {
             done();
         }, 45);
     });
+<<<<<<< HEAD
 
     it('should re render the items when service emit display change event', done => {
         const fixture = createComponent();
@@ -200,4 +205,6 @@ describe('StTable directive', () => {
         }, 45);
     });
 
+=======
+>>>>>>> 75df2b49f81071636c0cc7e7f82d8e2800f89475
 });
