@@ -43,6 +43,4 @@ export const of = <T>(data: T[], tableState = new TableState(), ...extensions: (
     table: SmartTableCore<T>;
     data: T[];
     tableState: TableState;
-}) => U)[]): SmartTableCore<T> & NgSmartTable<T> => {
-    return from(observableOf(data), tableState, ...extensions);
-};
+}) => U)[]): SmartTableCore<T> & NgSmartTable<T> => from(observableOf(data), tableState, ...extensions);
