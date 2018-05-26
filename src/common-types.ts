@@ -1,3 +1,6 @@
+import {TableState} from './table-state';
+import {OnDestroy} from '@angular/core';
+
 export const enum SortDirection {
     ASC = 'asc',
     DESC = 'desc',
@@ -56,4 +59,31 @@ export interface SearchState {
 export interface DisplayedItem<T> {
     value: T;
     index: number;
+}
+
+export interface SmartTableEventEmitter {
+    on: (event: string, ...listeners: Function[]) => SmartTableEventEmitter;
+    off: (event: string, ...listeners: Function[]) => SmartTableEventEmitter;
+    dispatch: (event: string, ...args: any[]) => SmartTableEventEmitter;
+}
+
+export interface ProcessInput {
+    processingDelay?: number;
+}
+
+export interface SmartTableCore<T> extends SmartTableEventEmitter {
+    sort: (newState: SortState) => void;
+    filter: (filterClause: any) => void;
+    search: (newState: SearchState) => void;
+    slice: (newState: SliceState) => void;
+    onDisplayChange: (handler: Function) => void;
+    getTableState: () => TableState;
+    getMatchingItems: () => T[];
+    eval: (state ?: TableState) => Promise<T[]>;
+    exec: (processInput?: ProcessInput) => void;
+}
+
+export interface NgSmartTable<T> extends OnDestroy {
+    init: () => void;
+    use: (data: T[]) => void;
 }

@@ -2,7 +2,7 @@ import {SmartTable} from '../src/smart-table.service';
 import {StTableDirective} from '../src/st-table.directive';
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-import {SortDirection} from '../src/commont-types';
+import {SortDirection} from '../src/common-types';
 
 @Component({})
 class StTableHostComponent {
