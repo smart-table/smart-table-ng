@@ -1,6 +1,6 @@
 import {SmartTable} from '../src/smart-table.service';
 import {SortDirection} from '../src/common-types';
-import {TableState} from "../src/table-state";
+import {TableState} from '../src/table-state';
 
 describe('Smart table service', () => {
 

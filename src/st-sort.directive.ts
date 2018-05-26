@@ -2,7 +2,6 @@ import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy} from '@a
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
 import {SortDirection, SortState} from './common-types';
-import {Subscription} from 'rxjs/index';
 
 @Directive({
     selector: '[stSort]',
@@ -10,7 +9,6 @@ import {Subscription} from 'rxjs/index';
 })
 export class StSortDirective<T> implements OnInit, OnDestroy {
     private _directive: any;
-    private _clickSubscription: Subscription;
 
     currentSortDirection: SortDirection = SortDirection.NONE;
 
