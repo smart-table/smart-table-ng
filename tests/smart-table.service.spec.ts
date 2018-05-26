@@ -1,6 +1,10 @@
 import {SmartTable} from '../src/smart-table.service';
+<<<<<<< HEAD
 import {SortDirection} from '../src/common-types';
 import {TableState} from "../src/table-state";
+=======
+import {SortDirection} from '../src/types';
+>>>>>>> save work
 
 describe('Smart table service', () => {
 
@@ -9,11 +13,20 @@ describe('Smart table service', () => {
         let instance: SmartTable<any>;
 
         beforeEach(() => {
+<<<<<<< HEAD
             spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState', 'getMatchingItems']);
             instance = SmartTable.of([], new TableState(), () => spy);
         });
 
         it('should proxy sort method', () => {
+=======
+            spy = jasmine.createSpyObj('SmartTable', ['sort', 'filter', 'search', 'slice', 'on', 'off', 'getTableState']);
+            instance = new SmartTable([], () => spy);
+        });
+
+        it('should proxy sort method', () => {
+
+>>>>>>> save work
             const input = {pointer: 'foo', direction: SortDirection.ASC};
             instance.sort(input);
             expect(spy.sort.calls.mostRecent().args).toEqual([{pointer: 'foo', direction: SortDirection.ASC}]);
@@ -40,6 +53,7 @@ describe('Smart table service', () => {
         it('should proxy getTableStateMethod', () => {
             instance.getTableState();
             expect(spy.getTableState.calls.count()).toEqual(1);
+<<<<<<< HEAD
         });
 
         it('should proxy getMatchingItems', () => {
@@ -61,5 +75,8 @@ describe('Smart table service', () => {
                 done();
             }, 60);
         });
+=======
+        })
+>>>>>>> save work
     });
 });
