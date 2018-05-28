@@ -12,5 +12,5 @@
 /**
  * Entry point for all public APIs of the package.
  */
-export { SmartTableModule, SmartTable, StFilterDirective, StPaginationDirective, StSearchDirective, StSortDirective, StTableDirective, TableState } from './src/smart-table-ng';
+export { SmartTableModule, SmartTable, StFilterDirective, StPaginationDirective, StSearchDirective, StSortDirective, StTableDirective, TableState, from, of } from './src/smart-table-ng';
 //# sourceMappingURL=public_api.js.map

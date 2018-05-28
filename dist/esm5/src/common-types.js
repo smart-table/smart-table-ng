@@ -3,14 +3,14 @@
  * @suppress {checkTypes} checked by tsc
  */
 /** @enum {string} */
-const SortDirection = {
+var SortDirection = {
     ASC: 'asc',
     DESC: 'desc',
     NONE: 'none',
 };
 export { SortDirection };
 /** @enum {string} */
-const FilterOperator = {
+var FilterOperator = {
     INCLUDES: 'includes',
     IS: 'is',
     IS_NOT: 'isNot',
@@ -23,7 +23,7 @@ const FilterOperator = {
 };
 export { FilterOperator };
 /** @enum {string} */
-const StEvents = {
+var StEvents = {
     TOGGLE_SORT: 'TOGGLE_SORT',
     DISPLAY_CHANGED: 'DISPLAY_CHANGED',
     PAGE_CHANGED: 'CHANGE_PAGE',
@@ -35,7 +35,7 @@ const StEvents = {
 };
 export { StEvents };
 /** @enum {string} */
-const FilterType = {
+var FilterType = {
     BOOLEAN: 'boolean',
     NUMBER: 'number',
     STRING: 'string',
@@ -91,4 +91,60 @@ function DisplayedItem_tsickle_Closure_declarations() {
     /** @type {?} */
     DisplayedItem.prototype.index;
 }
-//# sourceMappingURL=commont-types.js.map
+/**
+ * @record
+ */
+export function SmartTableEventEmitter() { }
+function SmartTableEventEmitter_tsickle_Closure_declarations() {
+    /** @type {?} */
+    SmartTableEventEmitter.prototype.on;
+    /** @type {?} */
+    SmartTableEventEmitter.prototype.off;
+    /** @type {?} */
+    SmartTableEventEmitter.prototype.dispatch;
+}
+/**
+ * @record
+ */
+export function ProcessInput() { }
+function ProcessInput_tsickle_Closure_declarations() {
+    /** @type {?|undefined} */
+    ProcessInput.prototype.processingDelay;
+}
+/**
+ * @record
+ * @template T
+ */
+export function SmartTableCore() { }
+function SmartTableCore_tsickle_Closure_declarations() {
+    /** @type {?} */
+    SmartTableCore.prototype.sort;
+    /** @type {?} */
+    SmartTableCore.prototype.filter;
+    /** @type {?} */
+    SmartTableCore.prototype.search;
+    /** @type {?} */
+    SmartTableCore.prototype.slice;
+    /** @type {?} */
+    SmartTableCore.prototype.onDisplayChange;
+    /** @type {?} */
+    SmartTableCore.prototype.getTableState;
+    /** @type {?} */
+    SmartTableCore.prototype.getMatchingItems;
+    /** @type {?} */
+    SmartTableCore.prototype.eval;
+    /** @type {?} */
+    SmartTableCore.prototype.exec;
+}
+/**
+ * @record
+ * @template T
+ */
+export function NgSmartTable() { }
+function NgSmartTable_tsickle_Closure_declarations() {
+    /** @type {?} */
+    NgSmartTable.prototype.init;
+    /** @type {?} */
+    NgSmartTable.prototype.use;
+}
+//# sourceMappingURL=common-types.js.map

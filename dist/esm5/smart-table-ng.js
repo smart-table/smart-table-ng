@@ -5,5 +5,5 @@
 /**
  * Generated bundle index. Do not edit.
  */
-export { SmartTableModule, SmartTable, StFilterDirective, StPaginationDirective, StSearchDirective, StSortDirective, StTableDirective, TableState } from './public_api';
+export { SmartTableModule, SmartTable, StFilterDirective, StPaginationDirective, StSearchDirective, StSortDirective, StTableDirective, TableState, from, of } from './public_api';
 //# sourceMappingURL=smart-table-ng.js.map

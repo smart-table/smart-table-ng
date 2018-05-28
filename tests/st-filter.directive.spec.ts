@@ -2,6 +2,7 @@ import {SmartTable} from '../src/smart-table.service';
 import {StFilterDirective} from '../src/st-filter.directive';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
+import {of} from '../src/factories';
 
 interface User {
     name: string;
@@ -38,7 +39,7 @@ describe('StFilterDirective', () => {
     };
 
     beforeEach(() => {
-        stInstance = SmartTable.of([]);
+        stInstance = of<User>([]);
         spy = spyOn(stInstance, 'filter').and.callThrough();
     });
 

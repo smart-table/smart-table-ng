@@ -1,6 +1,6 @@
 import { OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { FilterOperator, FilterType } from './commont-types';
+import { FilterOperator, FilterType } from './common-types';
 export declare class StFilterDirective<T> implements OnInit, OnDestroy {
     private table;
     private _el;

@@ -1,6 +1,6 @@
 import { EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { ExecState, SliceState, SortState, DisplayedItem } from './commont-types';
+import { ExecState, SliceState, SortState, DisplayedItem } from './common-types';
 export declare class StTableDirective<T> implements OnInit, OnDestroy {
     private table;
     items: DisplayedItem<T>[];

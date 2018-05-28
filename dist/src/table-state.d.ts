@@ -1,4 +1,4 @@
-import { SortState, SliceState, SearchState } from './commont-types';
+import { SortState, SliceState, SearchState } from './common-types';
 export declare class TableState {
     filter: Object;
     search: SearchState;

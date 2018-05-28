@@ -3,6 +3,7 @@ import {StTableDirective} from '../src/st-table.directive';
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
 import {SortDirection} from '../src/common-types';
+import {of} from '../src/factories';
 
 @Component({})
 class StTableHostComponent {
@@ -33,10 +34,6 @@ const fixtureData: User[] = [
 
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
-<<<<<<< HEAD
-=======
-
->>>>>>> 75df2b49f81071636c0cc7e7f82d8e2800f89475
     const createComponent = (template = `<ul stTable #list="stTable">
   <li *ngFor="let item of list.items">{{ item.value.name }}</li>
 </ul>`) => {
@@ -57,7 +54,7 @@ describe('StTable directive', () => {
     };
 
     beforeEach(() => {
-        stInstance = SmartTable.of(fixtureData);
+        stInstance = of(fixtureData);
     });
 
 
@@ -168,43 +165,4 @@ describe('StTable directive', () => {
             done();
         }, 45);
     });
-<<<<<<< HEAD
-
-    it('should re render the items when service emit display change event', done => {
-        const fixture = createComponent();
-        stInstance.sort({pointer: 'name'});
-
-        setTimeout(() => {
-            fixture.detectChanges();
-            const el: HTMLElement = fixture.nativeElement;
-            const items = Array.from(el.querySelectorAll('li'));
-            expect(items.length).toBe(3);
-            expect(items.map(i => i.textContent.trim()))
-                .toEqual([
-                    'Albert',
-                    'Bob',
-                    'Raymond'
-                ]);
-            done();
-        }, 45);
-    });
-
-    it('should emit display event', done => {
-        const fixture = createComponent(`<ul stTable (display)="handleEvent($event)"></ul>`);
-        stInstance.sort({pointer: 'name'});
-        setTimeout(() => {
-            fixture.detectChanges();
-            const component = fixture.componentInstance;
-            expect(component.args).toEqual([
-                {index: 1, value: {name: 'Albert', age: 40, email: 'woo@example.com'}},
-                {index: 0, value: {name: 'Bob', age: 30, email: 'foo@bar.com'}},
-                {index: 2, value: {name: 'Raymond', age: 35, email: 'nooo@bexample.com'}}
-            ]);
-
-            done();
-        }, 45);
-    });
-
-=======
->>>>>>> 75df2b49f81071636c0cc7e7f82d8e2800f89475
 });

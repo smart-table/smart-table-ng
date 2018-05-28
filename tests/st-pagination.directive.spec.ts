@@ -2,6 +2,7 @@ import {SmartTable} from '../src/smart-table.service';
 import {StPaginationDirective} from '../src/st-pagination.directive';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
+import {of} from '../src/factories';
 
 interface User {
     name: string;
@@ -60,7 +61,7 @@ describe('StPaginationDirective', () => {
     };
 
     beforeEach(() => {
-        stInstance = SmartTable.of([{name: 'Laurent'}, {name: 'Blandine'}, {name: 'Charlie'}], {
+        stInstance = of<User>([{name: 'Laurent'}, {name: 'Blandine'}, {name: 'Charlie'}], {
             sort: {},
             search: {},
             filter: {},
@@ -160,7 +161,9 @@ describe('StPaginationDirective', () => {
     });
 
     it('should delegate selectPreviousPage call to service', done => {
-        const fixture = createComponent(`<div stPagination #pager="stPagination"><button (click)="pager.selectPreviousPage()"></button></div>`);
+        const fixture = createComponent(`<div stPagination #pager="stPagination">
+<button (click)="pager.selectPreviousPage()"></button>
+</div>`);
         stInstance.slice({page: 3, size: 1});
         setTimeout(() => {
             fixture.detectChanges();
@@ -177,7 +180,9 @@ describe('StPaginationDirective', () => {
     });
 
     it('should delegate changePageSize call to service', done => {
-        const fixture = createComponent(`<div stPagination #pager="stPagination"><button (click)="pager.changePageSize(10)"></button></div>`);
+        const fixture = createComponent(`<div stPagination #pager="stPagination">
+<button (click)="pager.changePageSize(10)"></button>
+</div>`);
         setTimeout(() => {
             fixture.detectChanges();
             const button = fixture.nativeElement.querySelector('button');

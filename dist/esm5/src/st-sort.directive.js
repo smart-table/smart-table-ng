@@ -2,16 +2,15 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-import { Directive, Input, HostBinding, HostListener, ElementRef } from '@angular/core';
+import { Directive, Input, HostBinding, HostListener } from '@angular/core';
 import { SmartTable } from './smart-table.service';
 import { sort } from 'smart-table-core';
 /**
  * @template T
  */
 var StSortDirective = /** @class */ (function () {
-    function StSortDirective(table, _el) {
+    function StSortDirective(table) {
         this.table = table;
-        this._el = _el;
         this.currentSortDirection = "none" /* NONE */;
         this.cycle = false;
     }
@@ -78,7 +77,6 @@ var StSortDirective = /** @class */ (function () {
     /** @nocollapse */
     StSortDirective.ctorParameters = function () { return [
         { type: SmartTable, },
-        { type: ElementRef, },
     ]; };
     StSortDirective.propDecorators = {
         "pointer": [{ type: Input, args: ['stSort',] },],
@@ -110,7 +108,5 @@ function StSortDirective_tsickle_Closure_declarations() {
     StSortDirective.prototype.cycle;
     /** @type {?} */
     StSortDirective.prototype.table;
-    /** @type {?} */
-    StSortDirective.prototype._el;
 }
 //# sourceMappingURL=st-sort.directive.js.map

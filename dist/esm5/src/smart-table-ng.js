@@ -10,4 +10,5 @@ export { StSearchDirective } from './st-search.directive';
 export { StSortDirective } from './st-sort.directive';
 export { StTableDirective } from './st-table.directive';
 export { TableState } from './table-state';
+export { from, of } from './factories';
 //# sourceMappingURL=smart-table-ng.js.map

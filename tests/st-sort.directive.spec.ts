@@ -3,6 +3,7 @@ import {StSortDirective} from '../src/st-sort.directive';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {SortDirection} from '../src/common-types';
+import {of} from '../src/factories';
 
 interface User {
     name: string;
@@ -39,7 +40,7 @@ describe('StSortDirective', () => {
     };
 
     beforeEach(() => {
-        stInstance = SmartTable.of([]);
+        stInstance = of<User>([]);
         spy = spyOn(stInstance, 'sort').and.callThrough();
     });
 

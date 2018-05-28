@@ -1,4 +1,5 @@
 import {SmartTable} from '../src/smart-table.service';
+import {of, from} from '../src/factories';
 import {SortDirection} from '../src/common-types';
 import {TableState} from '../src/table-state';
 
@@ -19,7 +20,7 @@ describe('Smart table service', () => {
                 'getTableState',
                 'getMatchingItems'
             ]);
-            instance = SmartTable.of([], new TableState(), () => spy);
+            instance = of<any>([], new TableState(), () => spy);
         });
 
         it('should proxy sort method', () => {
@@ -58,7 +59,7 @@ describe('Smart table service', () => {
 
         it('should update data source when using use method', done => {
             let displayedItems: any[];
-            const service = SmartTable.of<any>([]);
+            const service = of<any>([]);
             service.onDisplayChange((items: any[]) => displayedItems = items);
             service.init();
             setTimeout(() => {
