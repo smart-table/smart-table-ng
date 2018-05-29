@@ -2,8 +2,9 @@ import {SmartTable} from '../src/smart-table.service';
 import {StTableDirective} from '../src/st-table.directive';
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-import {SortDirection} from '../src/common-types';
+import {SortDirection, StEvents} from '../src/common-types';
 import {of} from '../src/factories';
+import set = Reflect.set;
 
 @Component({})
 class StTableHostComponent {
@@ -34,9 +35,12 @@ const fixtureData: User[] = [
 
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
-    const createComponent = (template = `<ul stTable #list="stTable">
+    const createComponent = (template = `<div stTable #list="stTable">
+<span>{{list.busy}}</span>
+<ul>
   <li *ngFor="let item of list.items">{{ item.value.name }}</li>
-</ul>`) => {
+</ul>
+</div>`) => {
         const module = TestBed.configureTestingModule({
             declarations: [StTableHostComponent, StTableDirective],
             providers: [{
@@ -56,7 +60,6 @@ describe('StTable directive', () => {
     beforeEach(() => {
         stInstance = of(fixtureData);
     });
-
 
     it('should have rendered the items', done => {
         const fixture = createComponent();
@@ -92,6 +95,22 @@ describe('StTable directive', () => {
                 ]);
             done();
         }, 45);
+    });
+
+    it('should change busy state when service emit exec event', done => {
+        const fixture = createComponent();
+        setTimeout(() => {
+            fixture.detectChanges();
+            const busyIndicator: HTMLElement = fixture.nativeElement.querySelector('span');
+            expect(busyIndicator.textContent).toEqual('false');
+            stInstance.dispatch(StEvents.EXEC_CHANGED, {working: true});
+            fixture.detectChanges();
+            expect(busyIndicator.textContent).toEqual('true');
+            stInstance.dispatch(StEvents.EXEC_CHANGED, {working: false});
+            fixture.detectChanges();
+            expect(busyIndicator.textContent).toEqual('false');
+            done();
+        }, 30);
     });
 
     it('should emit display event', done => {

@@ -361,6 +361,7 @@ function handleSliceChange(state) {
  * @return {?}
  */
 function handleExecChange(state) {
+    this.busy = state.working;
     this.exec.emit(state);
 }
 /**
@@ -373,6 +374,7 @@ class StTableDirective {
     constructor(table$$1) {
         this.table = table$$1;
         this.items = [];
+        this.busy = false;
         this.display = new EventEmitter();
         this.sort = new EventEmitter();
         this.filter = new EventEmitter();

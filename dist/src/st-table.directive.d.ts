@@ -4,6 +4,7 @@ import { ExecState, SliceState, SortState, DisplayedItem } from './common-types'
 export declare class StTableDirective<T> implements OnInit, OnDestroy {
     private table;
     items: DisplayedItem<T>[];
+    busy: boolean;
     private displayHandler;
     private sortHandler;
     private filterHandler;

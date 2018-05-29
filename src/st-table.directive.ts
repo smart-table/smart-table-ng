@@ -20,6 +20,7 @@ function handleSliceChange<T>(this: StTableDirective<T>, state: SliceState) {
 }
 
 function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
+    this.busy = state.working;
     this.exec.emit(state);
 }
 
@@ -30,6 +31,7 @@ function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
 })
 export class StTableDirective<T> implements OnInit, OnDestroy {
     items: DisplayedItem<T>[] = [];
+    busy = false;
     private displayHandler: Function;
     private sortHandler: Function;
     private filterHandler: Function;

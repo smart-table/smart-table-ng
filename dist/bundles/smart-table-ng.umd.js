@@ -431,6 +431,7 @@
      * @return {?}
      */
     function handleExecChange(state) {
+        this.busy = state.working;
         this.exec.emit(state);
     }
     /**
@@ -440,6 +441,7 @@
         function StTableDirective(table$$1) {
             this.table = table$$1;
             this.items = [];
+            this.busy = false;
             this.display = new core.EventEmitter();
             this.sort = new core.EventEmitter();
             this.filter = new core.EventEmitter();

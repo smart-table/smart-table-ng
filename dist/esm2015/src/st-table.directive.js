@@ -48,6 +48,7 @@ function handleSliceChange(state) {
  * @return {?}
  */
 function handleExecChange(state) {
+    this.busy = state.working;
     this.exec.emit(state);
 }
 /**
@@ -60,6 +61,7 @@ export class StTableDirective {
     constructor(table) {
         this.table = table;
         this.items = [];
+        this.busy = false;
         this.display = new EventEmitter();
         this.sort = new EventEmitter();
         this.filter = new EventEmitter();
@@ -122,6 +124,8 @@ function StTableDirective_tsickle_Closure_declarations() {
     StTableDirective.propDecorators;
     /** @type {?} */
     StTableDirective.prototype.items;
+    /** @type {?} */
+    StTableDirective.prototype.busy;
     /** @type {?} */
     StTableDirective.prototype.displayHandler;
     /** @type {?} */
