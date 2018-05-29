@@ -42,6 +42,10 @@ export class StFilterDirective {
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(v => this.filter(v));
+        const /** @type {?} */ state = this._directive.state();
+        if (Array.isArray(state[this.pointer])) {
+            this._el.nativeElement.value = state[this.pointer][0].value;
+        }
     }
     /**
      * @return {?}

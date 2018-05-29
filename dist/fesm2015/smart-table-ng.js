@@ -33,10 +33,13 @@ SmartTable.decorators = [
 class StSortDirective {
     /**
      * @param {?} table
+     * @param {?} _el
      */
-    constructor(table$$1) {
+    constructor(table$$1, _el) {
         this.table = table$$1;
+        this._el = _el;
         this.currentSortDirection = "none" /* NONE */;
+        this.delay = 0;
         this.cycle = false;
     }
     /**
@@ -62,11 +65,14 @@ class StSortDirective {
      */
     ngOnInit() {
         this._directive = sort({
-            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
+            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true',
+            debounceTime: this.delay
         });
         this._directive.onSortToggle(({ direction, pointer }) => {
             this.currentSortDirection = pointer === this.pointer ? /** @type {?} */ (direction) : "none" /* NONE */;
         });
+        const /** @type {?} */ initState = this._directive.state();
+        this.currentSortDirection = initState.pointer === this.pointer ? (initState.direction || "asc" /* ASC */) : "none" /* NONE */;
     }
     /**
      * @return {?}
@@ -84,8 +90,10 @@ StSortDirective.decorators = [
 /** @nocollapse */
 StSortDirective.ctorParameters = () => [
     { type: SmartTable, },
+    { type: ElementRef, },
 ];
 StSortDirective.propDecorators = {
+    "delay": [{ type: Input, args: ['stDebounceTime',] },],
     "pointer": [{ type: Input, args: ['stSort',] },],
     "cycle": [{ type: Input, args: ['stSortCycle',] },],
     "isAsc": [{ type: HostBinding, args: ['class.st-sort-asc',] },],
@@ -132,6 +140,10 @@ class StFilterDirective {
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(v => this.filter(v));
+        const /** @type {?} */ state = this._directive.state();
+        if (Array.isArray(state[this.pointer])) {
+            this._el.nativeElement.value = state[this.pointer][0].value;
+        }
     }
     /**
      * @return {?}
@@ -187,11 +199,14 @@ class StSearchDirective {
      * @return {?}
      */
     ngOnInit() {
-        const /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope : this.scope.split(',').map(p => p.trim());
+        const /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope :
+            this.scope.split(',').map(p => p.trim());
         this._directive = search({ scope, table: this.table });
+        const { value } = this._directive.state();
+        this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
-            .subscribe((v) => this.search(v));
+            .subscribe(v => this.search(v));
     }
     /**
      * @return {?}

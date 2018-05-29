@@ -35,6 +35,7 @@ export class StFilterDirective<T> implements OnInit, OnDestroy {
             operator: this.operator,
             type: this.type
         });
+
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
                 map(($event: any) => (<HTMLInputElement>$event.target).value),
@@ -42,6 +43,12 @@ export class StFilterDirective<T> implements OnInit, OnDestroy {
                 distinctUntilChanged(),
             )
             .subscribe(v => this.filter(v));
+
+        const state = this._directive.state();
+
+        if (Array.isArray(state[this.pointer])) {
+            this._el.nativeElement.value = state[this.pointer][0].value;
+        }
     }
 
     ngOnDestroy() {

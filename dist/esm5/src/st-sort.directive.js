@@ -2,16 +2,18 @@
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-import { Directive, Input, HostBinding, HostListener } from '@angular/core';
+import { Directive, Input, HostBinding, HostListener, ElementRef } from '@angular/core';
 import { SmartTable } from './smart-table.service';
 import { sort } from 'smart-table-core';
 /**
  * @template T
  */
 var StSortDirective = /** @class */ (function () {
-    function StSortDirective(table) {
+    function StSortDirective(table, _el) {
         this.table = table;
+        this._el = _el;
         this.currentSortDirection = "none" /* NONE */;
+        this.delay = 0;
         this.cycle = false;
     }
     Object.defineProperty(StSortDirective.prototype, "isAsc", {
@@ -52,12 +54,15 @@ var StSortDirective = /** @class */ (function () {
     function () {
         var _this = this;
         this._directive = sort({
-            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
+            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true',
+            debounceTime: this.delay
         });
         this._directive.onSortToggle(function (_a) {
             var direction = _a.direction, pointer = _a.pointer;
             _this.currentSortDirection = pointer === _this.pointer ? /** @type {?} */ (direction) : "none" /* NONE */;
         });
+        var /** @type {?} */ initState = this._directive.state();
+        this.currentSortDirection = initState.pointer === this.pointer ? (initState.direction || "asc" /* ASC */) : "none" /* NONE */;
     };
     /**
      * @return {?}
@@ -77,8 +82,10 @@ var StSortDirective = /** @class */ (function () {
     /** @nocollapse */
     StSortDirective.ctorParameters = function () { return [
         { type: SmartTable, },
+        { type: ElementRef, },
     ]; };
     StSortDirective.propDecorators = {
+        "delay": [{ type: Input, args: ['stDebounceTime',] },],
         "pointer": [{ type: Input, args: ['stSort',] },],
         "cycle": [{ type: Input, args: ['stSortCycle',] },],
         "isAsc": [{ type: HostBinding, args: ['class.st-sort-asc',] },],
@@ -103,10 +110,14 @@ function StSortDirective_tsickle_Closure_declarations() {
     /** @type {?} */
     StSortDirective.prototype.currentSortDirection;
     /** @type {?} */
+    StSortDirective.prototype.delay;
+    /** @type {?} */
     StSortDirective.prototype.pointer;
     /** @type {?} */
     StSortDirective.prototype.cycle;
     /** @type {?} */
     StSortDirective.prototype.table;
+    /** @type {?} */
+    StSortDirective.prototype._el;
 }
 //# sourceMappingURL=st-sort.directive.js.map

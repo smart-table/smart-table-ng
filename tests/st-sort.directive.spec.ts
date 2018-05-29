@@ -104,4 +104,21 @@ describe('StSortDirective', () => {
             done();
         }, 60);
     });
+
+    it('should init with the initial table state', done => {
+        stInstance = of<User>([], {
+            sort: {pointer: 'name', direction: SortDirection.DESC},
+            filter: {},
+            search: {},
+            slice: {}
+        });
+        const fixture = createComponent();
+        const el = fixture.nativeElement.querySelector('button');
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(el.classList.contains('st-sort-desc')).toBe(true);
+            expect(el.classList.contains('st-sort-asc')).toBe(false);
+            done();
+        }, 30);
+    });
 });

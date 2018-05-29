@@ -3,6 +3,7 @@ import {StFilterDirective} from '../src/st-filter.directive';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {of} from '../src/factories';
+import {SortDirection} from "../src/common-types";
 
 interface User {
     name: string;
@@ -95,5 +96,21 @@ describe('StFilterDirective', () => {
             }]);
             done();
         }, 330);
+    });
+
+    it('should init with the initial table state', done => {
+        stInstance = of<User>([], {
+            sort: {},
+            filter: {name: [{value: 'foo'}]},
+            search: {},
+            slice: {}
+        });
+        const fixture = createComponent();
+        const el = fixture.nativeElement.querySelector('input');
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(el.value).toEqual('foo');
+            done();
+        }, 30);
     });
 });

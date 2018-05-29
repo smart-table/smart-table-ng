@@ -77,5 +77,21 @@ describe('StSearchDirective', () => {
         }, 480);
     });
 
+    it('should init with the initial table state', done => {
+        stInstance = of<User>([], {
+            sort: {},
+            filter: {},
+            search: {value: 'foo', scope: ['name']},
+            slice: {}
+        });
+        const fixture = createComponent();
+        const el = fixture.nativeElement.querySelector('input');
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(el.value).toEqual('foo');
+            done();
+        }, 30);
+    });
+
 
 });

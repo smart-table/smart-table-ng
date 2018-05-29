@@ -46,6 +46,10 @@ var StFilterDirective = /** @class */ (function () {
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(function ($event) { return (/** @type {?} */ ($event.target)).value; }), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(function (v) { return _this.filter(v); });
+        var /** @type {?} */ state = this._directive.state();
+        if (Array.isArray(state[this.pointer])) {
+            this._el.nativeElement.value = state[this.pointer][0].value;
+        }
     };
     /**
      * @return {?}

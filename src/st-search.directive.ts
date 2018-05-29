@@ -24,15 +24,18 @@ export class StSearchDirective<T> implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const scope = Array.isArray(this.scope) ? this.scope : this.scope.split(',').map(p => p.trim());
+        const scope = Array.isArray(this.scope) ? this.scope :
+            this.scope.split(',').map(p => p.trim());
         this._directive = search({scope, table: this.table});
+        const {value} = this._directive.state();
+        this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
-                map(($event: any) => ($event.target as HTMLInputElement).value),
+                map(($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )
-            .subscribe((v: string) => this.search(v));
+            .subscribe(v => this.search(v));
     }
 
     ngOnDestroy() {

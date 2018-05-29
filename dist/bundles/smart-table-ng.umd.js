@@ -34,9 +34,11 @@
      * @template T
      */
     var StSortDirective = /** @class */ (function () {
-        function StSortDirective(table$$1) {
+        function StSortDirective(table$$1, _el) {
             this.table = table$$1;
+            this._el = _el;
             this.currentSortDirection = "none" /* NONE */;
+            this.delay = 0;
             this.cycle = false;
         }
         Object.defineProperty(StSortDirective.prototype, "isAsc", {
@@ -77,12 +79,15 @@
         function () {
             var _this = this;
             this._directive = smartTableCore.sort({
-                table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
+                table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true',
+                debounceTime: this.delay
             });
             this._directive.onSortToggle(function (_a) {
                 var direction = _a.direction, pointer = _a.pointer;
                 _this.currentSortDirection = pointer === _this.pointer ? /** @type {?} */ (direction) : "none" /* NONE */;
             });
+            var /** @type {?} */ initState = this._directive.state();
+            this.currentSortDirection = initState.pointer === this.pointer ? (initState.direction || "asc" /* ASC */) : "none" /* NONE */;
         };
         /**
          * @return {?}
@@ -102,8 +107,10 @@
         /** @nocollapse */
         StSortDirective.ctorParameters = function () { return [
             { type: SmartTable, },
+            { type: core.ElementRef, },
         ]; };
         StSortDirective.propDecorators = {
+            "delay": [{ type: core.Input, args: ['stDebounceTime',] },],
             "pointer": [{ type: core.Input, args: ['stSort',] },],
             "cycle": [{ type: core.Input, args: ['stSortCycle',] },],
             "isAsc": [{ type: core.HostBinding, args: ['class.st-sort-asc',] },],
@@ -156,6 +163,10 @@
             this._inputSubscription = index.fromEvent(this._el.nativeElement, 'input')
                 .pipe(operators.map(function ($event) { return (/** @type {?} */ ($event.target)).value; }), operators.debounceTime(this.delay), operators.distinctUntilChanged())
                 .subscribe(function (v) { return _this.filter(v); });
+            var /** @type {?} */ state = this._directive.state();
+            if (Array.isArray(state[this.pointer])) {
+                this._el.nativeElement.value = state[this.pointer][0].value;
+            }
         };
         /**
          * @return {?}
@@ -219,8 +230,11 @@
          */
         function () {
             var _this = this;
-            var /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope : this.scope.split(',').map(function (p) { return p.trim(); });
+            var /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope :
+                this.scope.split(',').map(function (p) { return p.trim(); });
             this._directive = smartTableCore.search({ scope: scope, table: this.table });
+            var value = this._directive.state().value;
+            this._el.nativeElement.value = value || '';
             this._inputSubscription = index.fromEvent(this._el.nativeElement, 'input')
                 .pipe(operators.map(function ($event) { return (/** @type {?} */ ($event.target)).value; }), operators.debounceTime(this.delay), operators.distinctUntilChanged())
                 .subscribe(function (v) { return _this.search(v); });

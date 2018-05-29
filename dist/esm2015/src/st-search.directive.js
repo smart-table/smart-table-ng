@@ -31,11 +31,14 @@ export class StSearchDirective {
      * @return {?}
      */
     ngOnInit() {
-        const /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope : this.scope.split(',').map(p => p.trim());
+        const /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope :
+            this.scope.split(',').map(p => p.trim());
         this._directive = search({ scope, table: this.table });
+        const { value } = this._directive.state();
+        this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
-            .subscribe((v) => this.search(v));
+            .subscribe(v => this.search(v));
     }
     /**
      * @return {?}

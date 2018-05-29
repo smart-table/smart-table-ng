@@ -35,8 +35,11 @@ var StSearchDirective = /** @class */ (function () {
      */
     function () {
         var _this = this;
-        var /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope : this.scope.split(',').map(function (p) { return p.trim(); });
+        var /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope :
+            this.scope.split(',').map(function (p) { return p.trim(); });
         this._directive = search({ scope: scope, table: this.table });
+        var value = this._directive.state().value;
+        this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(map(function ($event) { return (/** @type {?} */ ($event.target)).value; }), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(function (v) { return _this.search(v); });

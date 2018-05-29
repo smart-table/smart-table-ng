@@ -1,7 +1,8 @@
-import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy} from '@angular/core';
+import {Directive, Input, HostBinding, HostListener, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
 import {sort} from 'smart-table-core';
-import {SortDirection, SortState} from './common-types';
+import {SortDirection} from './common-types';
+
 
 @Directive({
     selector: '[stSort]',
@@ -12,8 +13,10 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
 
     currentSortDirection: SortDirection = SortDirection.NONE;
 
-    constructor(private table: SmartTable<T>) {
+    constructor(private table: SmartTable<T>, private _el: ElementRef) {
     }
+
+    @Input('stDebounceTime') delay = 0;
 
     @Input('stSort') pointer: string;
 
@@ -33,11 +36,14 @@ export class StSortDirective<T> implements OnInit, OnDestroy {
 
     ngOnInit() {
         this._directive = sort({
-            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true'
+            table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true',
+            debounceTime: this.delay
         });
-        this._directive.onSortToggle(({direction, pointer}: SortState) => {
+        this._directive.onSortToggle(({direction, pointer}) => {
             this.currentSortDirection = pointer === this.pointer ? <SortDirection>direction : SortDirection.NONE;
         });
+        const initState = this._directive.state();
+        this.currentSortDirection = initState.pointer === this.pointer ? (initState.direction || SortDirection.ASC) : SortDirection.NONE;
     }
 
     ngOnDestroy() {
