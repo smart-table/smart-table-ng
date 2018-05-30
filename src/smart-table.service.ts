@@ -6,14 +6,14 @@ import {
     SmartTableEventEmitter,
     SearchState,
     SliceState,
-    SortState
+    SortState, DisplayedItem
 } from './common-types';
 import {TableState} from './table-state';
 
 @Injectable()
 export abstract class SmartTable<T> implements SmartTableCore<T>, NgSmartTable<T> {
     dispatch: (event: string, ...args: any[]) => SmartTableEventEmitter;
-    eval: (state?: TableState) => Promise<T[]>;
+    eval: (state?: TableState) => Promise<DisplayedItem<T>[]>;
     exec: (processInput?: ProcessInput) => void;
     filter: (filterClause: any) => void;
     getMatchingItems: () => T[];

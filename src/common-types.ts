@@ -79,7 +79,7 @@ export interface SmartTableCore<T> extends SmartTableEventEmitter {
     onDisplayChange: (handler: Function) => void;
     getTableState: () => TableState;
     getMatchingItems: () => T[];
-    eval: (state ?: TableState) => Promise<T[]>;
+    eval: (state ?: TableState) => Promise<DisplayedItem<T>[]>;
     exec: (processInput?: ProcessInput) => void;
 }
 
