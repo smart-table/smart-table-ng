@@ -1,9 +1,20 @@
 # smart-table-ng
 
+[![Build Status](https://travis-ci.org/smart-table/smart-table-ng.svg?branch=master)](https://travis-ci.org/smart-table/smart-table-ng)
+
 [Smart-Table](https://github.com/smart-table/smart-table-core) binding for Angular (v >= 2).
 
-smart-table-ng module provides an injectable service to manage smart collections (sortable, filterable, searchable) and a set of attribute directives to create list component in a **declarative** way.
-It is often useful for table components but not only.
+``npm install --save smart-table-ng``
+
+Follow the tutorials for more details:
+
+- [about declarative directives](https://medium.com/@lorenzofox3/smart-table-for-angular-part-1-515ef6cb2d0a)
+- [about loading data](https://medium.com/@lorenzofox3/smart-table-for-angular-part-2-31ea5bd0c383)
+
+
+
+
+
 
 
 
