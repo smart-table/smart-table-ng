@@ -32,6 +32,11 @@ const fixtureData: User[] = [
     {name: 'Raymond', age: 35, email: 'nooo@bexample.com'}
 ];
 
+const newData: User[] = [
+    {name: 'Alice', age: 33, email: 'foo@bar.com'},
+    {name: 'Desiree', age: 44, email: 'woo@example.com'}
+];
+
 
 describe('StTable directive', () => {
     let stInstance: SmartTable<User>;
@@ -73,6 +78,23 @@ describe('StTable directive', () => {
                     'Bob',
                     'Albert',
                     'Raymond'
+                ]);
+            done();
+        }, 25);
+    });
+
+   it('should have rendered the new items', done => {
+        const fixture = createComponent();
+        stInstance.use(newData);
+        setTimeout(() => {
+            fixture.detectChanges();
+            const el: HTMLElement = fixture.nativeElement;
+            const items = Array.from(el.querySelectorAll('li'));
+            expect(items.length).toBe(2);
+            expect(items.map(i => i.textContent.trim()))
+                .toEqual([
+                    'Alice',
+                    'Desiree'
                 ]);
             done();
         }, 25);
