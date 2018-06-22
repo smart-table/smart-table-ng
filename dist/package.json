@@ -39,8 +39,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "smart-table-core": "^2.3.1",
-    "tslib": "^1.9.0"
+    "smart-table-core": "^2.4.0",
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "@angular/common": ">= 6.0.0",
@@ -58,12 +58,14 @@
     "@compodoc/compodoc": "1.1.2",
     "@types/jasmine": "2.8.7",
     "@types/node": "10.0.3",
+    "angular2-template-loader": "0.6.2",
     "chalk": "2.4.1",
     "codelyzer": "4.3.0",
     "core-js": "2.5.5",
+    "css-loader": "0.28.11",
     "istanbul-instrumenter-loader": "3.0.1",
     "jasmine-core": "3.1.0",
-    "karma": "2.0.2",
+    "karma": "^2.0.4",
     "karma-chrome-launcher": "2.2.0",
     "karma-coverage-istanbul-reporter": "1.4.2",
     "karma-jasmine": "1.1.2",
@@ -71,26 +73,24 @@
     "karma-spec-reporter": "0.0.32",
     "karma-webpack": "4.0.0-beta.0",
     "node-sass": "4.9.0",
+    "raw-loader": "0.5.1",
     "reflect-metadata": "0.1.12",
     "rollup": "0.58.2",
     "rollup-plugin-license": "0.6.0",
     "rollup-plugin-node-resolve": "3.3.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rxjs": "6.1.0",
+    "sass-loader": "7.0.1",
     "shelljs": "0.8.1",
     "source-map-loader": "0.2.3",
+    "to-string-loader": "1.1.5",
     "ts-loader": "4.2.0",
     "tslint": "5.10.0",
     "tslint-angular": "1.1.1",
     "typescript": "2.7.2",
     "uglify-js": "3.3.23",
     "webpack": "4.6.0",
-    "zone.js": "0.8.26",
-    "angular2-template-loader": "0.6.2",
-    "raw-loader": "0.5.1",
-    "css-loader": "0.28.11",
-    "sass-loader": "7.0.1",
-    "to-string-loader": "1.1.5"
+    "zone.js": "0.8.26"
   },
   "sideEffects": false
 }

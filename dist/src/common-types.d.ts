@@ -71,6 +71,15 @@ export interface SmartTableCore<T> extends SmartTableEventEmitter {
     exec: (processInput?: ProcessInput) => void;
 }
 export interface NgSmartTable<T> extends OnDestroy {
+    /**
+     * Initialize table by loading or reloading data from the source defined
+     * in from() during factory initialization
+     */
     init: () => void;
+    /**
+     * Replace the data in the table with new data
+     *
+     * @param data - The data to show in the table
+     */
     use: (data: T[]) => void;
 }

@@ -142,9 +142,18 @@ function SmartTableCore_tsickle_Closure_declarations() {
  */
 export function NgSmartTable() { }
 function NgSmartTable_tsickle_Closure_declarations() {
-    /** @type {?} */
+    /**
+     * Initialize table by loading or reloading data from the source defined
+     * in from() during factory initialization
+     * @type {?}
+     */
     NgSmartTable.prototype.init;
-    /** @type {?} */
+    /**
+     * Replace the data in the table with new data
+     *
+     * \@param data - The data to show in the table
+     * @type {?}
+     */
     NgSmartTable.prototype.use;
 }
 //# sourceMappingURL=common-types.js.map

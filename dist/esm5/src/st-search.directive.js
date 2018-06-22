@@ -15,6 +15,8 @@ var StSearchDirective = /** @class */ (function () {
         this.table = table;
         this._el = _el;
         this.delay = 300;
+        this.flags = 'i';
+        this.escape = false;
     }
     /**
      * @param {?} value
@@ -25,7 +27,10 @@ var StSearchDirective = /** @class */ (function () {
      * @return {?}
      */
     function (value) {
-        return this._directive.search(value);
+        return this._directive.search(value, {
+            flags: this.flags,
+            escape: this.escape === 'true' || this.escape === true
+        });
     };
     /**
      * @return {?}
@@ -68,6 +73,8 @@ var StSearchDirective = /** @class */ (function () {
     StSearchDirective.propDecorators = {
         "scope": [{ type: Input, args: ['stSearch',] },],
         "delay": [{ type: Input, args: ['stDebounceTime',] },],
+        "flags": [{ type: Input, args: ['stSearchFlags',] },],
+        "escape": [{ type: Input, args: ['stSearchEscape',] },],
     };
     return StSearchDirective;
 }());
@@ -90,6 +97,10 @@ function StSearchDirective_tsickle_Closure_declarations() {
     StSearchDirective.prototype.scope;
     /** @type {?} */
     StSearchDirective.prototype.delay;
+    /** @type {?} */
+    StSearchDirective.prototype.flags;
+    /** @type {?} */
+    StSearchDirective.prototype.escape;
     /** @type {?} */
     StSearchDirective.prototype.table;
     /** @type {?} */

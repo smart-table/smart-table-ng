@@ -36,7 +36,10 @@ export class StFilterDirective<T> implements OnInit, OnDestroy {
             type: this.type
         });
 
-        this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
+        // fix for Edge https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+        const event = this._el.nativeElement.tagName === 'SELECT' ? 'change' : 'input';
+
+        this._inputSubscription = fromEvent(this._el.nativeElement, event)
             .pipe(
                 map(($event: any) => (<HTMLInputElement>$event.target).value),
                 debounceTime(this.delay),

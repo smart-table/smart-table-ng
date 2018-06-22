@@ -160,7 +160,9 @@ var StFilterDirective = /** @class */ (function () {
             operator: this.operator,
             type: this.type
         });
-        this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
+        // fix for Edge https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+        var /** @type {?} */ event = this._el.nativeElement.tagName === 'SELECT' ? 'change' : 'input';
+        this._inputSubscription = fromEvent(this._el.nativeElement, event)
             .pipe(map(function ($event) { return (/** @type {?} */ ($event.target)).value; }), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(function (v) { return _this.filter(v); });
         var /** @type {?} */ state = this._directive.state();
@@ -210,6 +212,8 @@ var StSearchDirective = /** @class */ (function () {
         this.table = table$$1;
         this._el = _el;
         this.delay = 300;
+        this.flags = 'i';
+        this.escape = false;
     }
     /**
      * @param {?} value
@@ -220,7 +224,10 @@ var StSearchDirective = /** @class */ (function () {
      * @return {?}
      */
     function (value) {
-        return this._directive.search(value);
+        return this._directive.search(value, {
+            flags: this.flags,
+            escape: this.escape === 'true' || this.escape === true
+        });
     };
     /**
      * @return {?}
@@ -263,6 +270,8 @@ var StSearchDirective = /** @class */ (function () {
     StSearchDirective.propDecorators = {
         "scope": [{ type: Input, args: ['stSearch',] },],
         "delay": [{ type: Input, args: ['stDebounceTime',] },],
+        "flags": [{ type: Input, args: ['stSearchFlags',] },],
+        "escape": [{ type: Input, args: ['stSearchEscape',] },],
     };
     return StSearchDirective;
 }());
@@ -591,10 +600,13 @@ var /** @type {?} */ from$1 = function (data, tableState) {
          * @return {?}
          */
         function () {
+            if (subscription) {
+                subscription.unsubscribe();
+            }
             table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe(function (items) {
-                dataArray.splice.apply(dataArray, [0, 0].concat(items));
+                dataArray.splice.apply(dataArray, [0, dataArray.length].concat(items));
                 table$$1.exec();
             });
         },
@@ -608,7 +620,7 @@ var /** @type {?} */ from$1 = function (data, tableState) {
             table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe(function (values) {
-                dataArray.splice.apply(dataArray, [0, 0].concat(values));
+                dataArray.splice.apply(dataArray, [0, dataArray.length].concat(values));
                 table$$1.exec();
             });
         },

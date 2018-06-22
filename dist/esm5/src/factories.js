@@ -20,10 +20,13 @@ export var /** @type {?} */ from = function (data, tableState) {
          * @return {?}
          */
         function () {
+            if (subscription) {
+                subscription.unsubscribe();
+            }
             table.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe(function (items) {
-                dataArray.splice.apply(dataArray, [0, 0].concat(items));
+                dataArray.splice.apply(dataArray, [0, dataArray.length].concat(items));
                 table.exec();
             });
         },
@@ -37,7 +40,7 @@ export var /** @type {?} */ from = function (data, tableState) {
             table.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe(function (values) {
-                dataArray.splice.apply(dataArray, [0, 0].concat(values));
+                dataArray.splice.apply(dataArray, [0, dataArray.length].concat(values));
                 table.exec();
             });
         },

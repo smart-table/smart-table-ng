@@ -8,6 +8,8 @@ export declare class StSearchDirective<T> implements OnInit, OnDestroy {
     constructor(table: SmartTable<T>, _el: ElementRef);
     scope: string | string[];
     delay: number;
+    flags: string;
+    escape: boolean | string;
     search(value: string): void;
     ngOnInit(): void;
     ngOnDestroy(): void;

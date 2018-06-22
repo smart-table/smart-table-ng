@@ -19,8 +19,15 @@ export class StSearchDirective<T> implements OnInit, OnDestroy {
 
     @Input('stDebounceTime') delay = 300;
 
+    @Input('stSearchFlags') flags = 'i';
+
+    @Input('stSearchEscape') escape: boolean | string = false;
+
     search(value: string): void {
-        return this._directive.search(value);
+        return this._directive.search(value, {
+            flags: this.flags,
+            escape: this.escape === 'true' || this.escape === true
+        });
     }
 
     ngOnInit() {

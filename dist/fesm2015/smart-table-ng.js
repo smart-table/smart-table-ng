@@ -137,7 +137,9 @@ class StFilterDirective {
             operator: this.operator,
             type: this.type
         });
-        this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
+        // fix for Edge https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+        const /** @type {?} */ event = this._el.nativeElement.tagName === 'SELECT' ? 'change' : 'input';
+        this._inputSubscription = fromEvent(this._el.nativeElement, event)
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(v => this.filter(v));
         const /** @type {?} */ state = this._directive.state();
@@ -187,13 +189,18 @@ class StSearchDirective {
         this.table = table$$1;
         this._el = _el;
         this.delay = 300;
+        this.flags = 'i';
+        this.escape = false;
     }
     /**
      * @param {?} value
      * @return {?}
      */
     search(value) {
-        return this._directive.search(value);
+        return this._directive.search(value, {
+            flags: this.flags,
+            escape: this.escape === 'true' || this.escape === true
+        });
     }
     /**
      * @return {?}
@@ -230,6 +237,8 @@ StSearchDirective.ctorParameters = () => [
 StSearchDirective.propDecorators = {
     "scope": [{ type: Input, args: ['stSearch',] },],
     "delay": [{ type: Input, args: ['stDebounceTime',] },],
+    "flags": [{ type: Input, args: ['stSearchFlags',] },],
+    "escape": [{ type: Input, args: ['stSearchEscape',] },],
 };
 
 /**
@@ -506,10 +515,13 @@ const /** @type {?} */ from$1 = (data, tableState = new TableState(), ...extensi
          * @return {?}
          */
         init() {
+            if (subscription) {
+                subscription.unsubscribe();
+            }
             table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe((items) => {
-                dataArray.splice(0, 0, ...items);
+                dataArray.splice(0, dataArray.length, ...items);
                 table$$1.exec();
             });
         },
@@ -523,7 +535,7 @@ const /** @type {?} */ from$1 = (data, tableState = new TableState(), ...extensi
             table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe((values) => {
-                dataArray.splice(0, 0, ...values);
+                dataArray.splice(0, dataArray.length, ...values);
                 table$$1.exec();
             });
         },

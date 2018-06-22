@@ -39,7 +39,9 @@ export class StFilterDirective {
             operator: this.operator,
             type: this.type
         });
-        this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
+        // fix for Edge https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/4660045/
+        const /** @type {?} */ event = this._el.nativeElement.tagName === 'SELECT' ? 'change' : 'input';
+        this._inputSubscription = fromEvent(this._el.nativeElement, event)
             .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
             .subscribe(v => this.filter(v));
         const /** @type {?} */ state = this._directive.state();

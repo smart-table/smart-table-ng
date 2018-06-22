@@ -52,7 +52,12 @@ describe('StSearchDirective', () => {
         setTimeout(() => {
             fixture.detectChanges();
             expect(spy.calls.count()).toBe(1);
-            expect(spy.calls.mostRecent().args).toEqual([{scope: ['name', 'email'], value: 'foo'}]);
+            expect(spy.calls.mostRecent().args).toEqual([{
+                scope: ['name', 'email'],
+                value: 'foo',
+                flags: 'i',
+                escape: false
+            }]);
             done();
         }, 330);
     });
@@ -72,7 +77,12 @@ describe('StSearchDirective', () => {
         setTimeout(() => {
             fixture.detectChanges();
             expect(spy.calls.count()).toBe(1);
-            expect(spy.calls.mostRecent().args).toEqual([{scope: ['name', 'email'], value: 'foo bar'}]);
+            expect(spy.calls.mostRecent().args).toEqual([{
+                scope: ['name', 'email'],
+                value: 'foo bar',
+                escape: false,
+                flags: 'i'
+            }]);
             done();
         }, 480);
     });
@@ -93,5 +103,25 @@ describe('StSearchDirective', () => {
         }, 30);
     });
 
+    it('should forward extra parameters', done => {
+        const fixture = createComponent(`<input stSearch="name, email"  stSearchEscape="true" stSearchFlags="" />`);
+        const el = fixture.nativeElement.querySelector('input');
+        el.value = 'foo';
+        el.dispatchEvent(new KeyboardEvent('input'));
+
+        setTimeout(() => {
+            fixture.detectChanges();
+            expect(spy.calls.count()).toBe(1);
+            const calls = spy.calls.mostRecent().args;
+            console.log(calls);
+            expect(calls).toEqual([{
+                scope: ['name', 'email'],
+                value: 'foo',
+                flags: '',
+                escape: true
+            }]);
+            done();
+        }, 330);
+    });
 
 });
