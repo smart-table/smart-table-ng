@@ -16,10 +16,13 @@ export const from = <T>(data: ObservableInput<T[]>, tableState = new TableState(
 
     return Object.assign(table, {
         init() {
+            if (subscription) {
+              subscription.unsubscribe();
+            }
             table.dispatch(StEvents.EXEC_CHANGED, {working: true});
             subscription = source
                 .subscribe((items: T[]) => {
-                    dataArray.splice(0, 0, ...items);
+                    dataArray.splice(0, dataArray.length, ...items);
                     table.exec();
                 });
         },
@@ -29,7 +32,7 @@ export const from = <T>(data: ObservableInput<T[]>, tableState = new TableState(
             table.dispatch(StEvents.EXEC_CHANGED, {working: true});
             subscription = source
                 .subscribe((values: T[]) => {
-                    dataArray.splice(0, 0, ...values);
+                    dataArray.splice(0, dataArray.length, ...values);
                     table.exec();
                 });
         },
