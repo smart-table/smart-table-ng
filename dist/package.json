@@ -1,6 +1,6 @@
 {
   "name": "smart-table-ng",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "smart table binding for Angular",
   "main": "./bundles/smart-table-ng.umd.js",
   "module": "./fesm5/smart-table-ng.js",
@@ -37,7 +37,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "smart-table-core": "^3.0.1"
+    "smart-table-core": "^3.0.2"
   },
   "peerDependencies": {
     "@angular/common": ">= 6.0.0",
