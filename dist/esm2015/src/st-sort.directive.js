@@ -4,7 +4,7 @@
  */
 import { Directive, Input, HostBinding, HostListener, ElementRef } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { sort } from 'smart-table-core';
+import { sortDirective as sort } from 'smart-table-core';
 /**
  * @template T
  */

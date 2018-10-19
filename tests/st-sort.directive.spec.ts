@@ -1,9 +1,7 @@
-import {SmartTable} from '../src/smart-table.service';
-import {StSortDirective} from '../src/st-sort.directive';
+import {SmartTable, StSortDirective, of} from '../dist';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
-import {SortDirection} from '../src/common-types';
-import {of} from '../src/factories';
+import {SortDirection} from 'smart-table-core';
 
 interface User {
     name: string;

@@ -1,6 +1,6 @@
 import {Directive, Input, OnInit, OnDestroy, ElementRef} from '@angular/core';
 import {SmartTable} from './smart-table.service';
-import {search} from 'smart-table-core';
+import {searchDirective as search} from 'smart-table-core';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import {Subscription, fromEvent} from 'rxjs/index';
 
@@ -38,11 +38,11 @@ export class StSearchDirective<T> implements OnInit, OnDestroy {
         this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
             .pipe(
-                map(($event: KeyboardEvent) => ($event.target as HTMLInputElement).value),
+                map($event => (<HTMLInputElement>(<KeyboardEvent>$event).target).value),
                 debounceTime(this.delay),
                 distinctUntilChanged(),
             )
-            .subscribe(v => this.search(v));
+            .subscribe((v: string) => this.search(v));
     }
 
     ngOnDestroy() {

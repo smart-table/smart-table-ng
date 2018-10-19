@@ -54,5 +54,9 @@ function SmartTable_tsickle_Closure_declarations() {
     SmartTable.prototype.use;
     /** @type {?} */
     SmartTable.prototype.ngOnDestroy;
+    /** @type {?} */
+    SmartTable.prototype.filteredCount;
+    /** @type {?} */
+    SmartTable.prototype.length;
 }
 //# sourceMappingURL=smart-table.service.js.map

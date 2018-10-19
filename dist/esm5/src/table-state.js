@@ -7,7 +7,7 @@ var TableState = /** @class */ (function () {
     function TableState() {
         this.filter = {};
         this.search = {};
-        this.slice = { page: 1, size: 20 };
+        this.slice = {};
         this.sort = {};
     }
     TableState.decorators = [

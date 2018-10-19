@@ -1,6 +1,6 @@
 import { EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { ExecState, SliceState, SortState, DisplayedItem } from './common-types';
+import { SortConfiguration, DisplayedItem, FilterConfiguration, SliceConfiguration, WorkingIndicator } from 'smart-table-core';
 export declare class StTableDirective<T> implements OnInit, OnDestroy {
     private table;
     items: DisplayedItem<T>[];
@@ -11,10 +11,10 @@ export declare class StTableDirective<T> implements OnInit, OnDestroy {
     private sliceHandler;
     private execHandler;
     display: EventEmitter<DisplayedItem<T>[]>;
-    sort: EventEmitter<SortState>;
-    filter: EventEmitter<{}>;
-    slice: EventEmitter<SliceState>;
-    exec: EventEmitter<ExecState>;
+    sort: EventEmitter<SortConfiguration>;
+    filter: EventEmitter<FilterConfiguration>;
+    slice: EventEmitter<SliceConfiguration>;
+    exec: EventEmitter<WorkingIndicator>;
     constructor(table: SmartTable<T>);
     ngOnInit(): void;
     ngOnDestroy(): void;

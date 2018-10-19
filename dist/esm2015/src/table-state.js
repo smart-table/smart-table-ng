@@ -7,7 +7,7 @@ export class TableState {
     constructor() {
         this.filter = {};
         this.search = {};
-        this.slice = { page: 1, size: 20 };
+        this.slice = {};
         this.sort = {};
     }
 }

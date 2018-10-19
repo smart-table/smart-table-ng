@@ -4,7 +4,7 @@
  */
 import { Directive } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { slice } from 'smart-table-core';
+import { paginationDirective as slice } from 'smart-table-core';
 /**
  * @record
  */

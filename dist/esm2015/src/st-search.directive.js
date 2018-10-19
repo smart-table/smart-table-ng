@@ -4,7 +4,7 @@
  */
 import { Directive, Input, ElementRef } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { search } from 'smart-table-core';
+import { searchDirective as search } from 'smart-table-core';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs/index';
 /**
@@ -42,8 +42,8 @@ export class StSearchDirective {
         const { value } = this._directive.state();
         this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
-            .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
-            .subscribe(v => this.search(v));
+            .pipe(map($event => (/** @type {?} */ ((/** @type {?} */ ($event)).target)).value), debounceTime(this.delay), distinctUntilChanged())
+            .subscribe((v) => this.search(v));
     }
     /**
      * @return {?}

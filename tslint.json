@@ -1,7 +1,7 @@
 {
-    "extends": [
-        "tslint-angular"
-    ],
-    "rules": {
-    }
+  "extends": [
+    "tslint-angular"
+  ],
+  "rules": {
+  }
 }

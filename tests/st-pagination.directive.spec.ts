@@ -1,8 +1,6 @@
-import {SmartTable} from '../src/smart-table.service';
-import {StPaginationDirective} from '../src/st-pagination.directive';
+import {SmartTable, StPaginationDirective, of} from '../dist';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
-import {of} from '../src/factories';
 
 interface User {
     name: string;
@@ -29,10 +27,15 @@ const fetchBindingValues: (el: HTMLElement) => BindingResult = el => {
     const spans = el.querySelectorAll('span');
     const buttons = el.querySelectorAll('button');
     return {
+        // @ts-ignore
         page: +(spans[0].textContent.trim()),
+        // @ts-ignore
         size: +(spans[1].textContent.trim()),
+        // @ts-ignore
         length: +(spans[2].textContent.trim()),
+        // @ts-ignore
         lowerBoundIndex: +(spans[3].textContent.trim()),
+        // @ts-ignore
         higherBoundIndex: +(spans[4].textContent.trim()),
         isPreviousDisabled: buttons[0].disabled,
         isNextDisabled: buttons[1].disabled,

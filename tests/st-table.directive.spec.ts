@@ -1,10 +1,7 @@
-import {SmartTable} from '../src/smart-table.service';
-import {StTableDirective} from '../src/st-table.directive';
+import {SmartTable, StTableDirective, of} from '../dist';
 import {Component} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-import {SortDirection, StEvents} from '../src/common-types';
-import {of} from '../src/factories';
-import set = Reflect.set;
+import {SortDirection, SmartTableEvents as StEvents, FilterOperator} from 'smart-table-core';
 
 @Component({})
 class StTableHostComponent {
@@ -73,6 +70,7 @@ describe('StTable directive', () => {
             const el: HTMLElement = fixture.nativeElement;
             const items = Array.from(el.querySelectorAll('li'));
             expect(items.length).toBe(3);
+            // @ts-ignore
             expect(items.map(i => i.textContent.trim()))
                 .toEqual([
                     'Bob',
@@ -83,7 +81,7 @@ describe('StTable directive', () => {
         }, 25);
     });
 
-   it('should have rendered the new items', done => {
+    it('should have rendered the new items', done => {
         const fixture = createComponent();
         stInstance.use(newData);
         setTimeout(() => {
@@ -91,6 +89,7 @@ describe('StTable directive', () => {
             const el: HTMLElement = fixture.nativeElement;
             const items = Array.from(el.querySelectorAll('li'));
             expect(items.length).toBe(2);
+            // @ts-ignore
             expect(items.map(i => i.textContent.trim()))
                 .toEqual([
                     'Alice',
@@ -109,6 +108,7 @@ describe('StTable directive', () => {
             const el: HTMLElement = fixture.nativeElement;
             const items = Array.from(el.querySelectorAll('li'));
             expect(items.length).toBe(3);
+            // @ts-ignore
             expect(items.map(i => i.textContent.trim()))
                 .toEqual([
                     'Albert',
@@ -168,13 +168,13 @@ describe('StTable directive', () => {
     it('should emit filter event', done => {
         const fixture = createComponent(`<ul stTable (filter)="handleEvent($event)"></ul>`);
         stInstance.filter({
-            foo: [{operator: 'lt', value: 'bar'}]
+            foo: [{operator: FilterOperator.GREATER_THAN, value: 'bar'}]
         });
         setTimeout(() => {
             fixture.detectChanges();
             const component = fixture.componentInstance;
             expect(component.args).toEqual({
-                foo: [{operator: 'lt', value: 'bar'}]
+                foo: [{operator: FilterOperator.GREATER_THAN, value: 'bar'}]
             });
             done();
         }, 45);

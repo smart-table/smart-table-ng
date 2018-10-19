@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {SortState, SliceState, SearchState} from './common-types';
+import {TableState as ITableState} from 'smart-table-core';
 
 @Injectable()
-export class TableState {
-    filter: Object = {};
-    search: SearchState = {};
-    slice: SliceState = {page: 1, size: 20};
-    sort: SortState = {};
+export class TableState implements ITableState {
+    filter = {};
+    search = {};
+    slice = {};
+    sort = {};
 }

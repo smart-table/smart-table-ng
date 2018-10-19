@@ -4,7 +4,7 @@
  */
 
 import { Injectable, Directive, Input, HostBinding, HostListener, ElementRef, Output, EventEmitter, NgModule } from '@angular/core';
-import { sort, filter, search, slice, table } from 'smart-table-core';
+import { sortDirective, filterDirective, searchDirective, paginationDirective, smartTable } from 'smart-table-core';
 import { fromEvent, of, from } from 'rxjs/index';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -35,8 +35,8 @@ class StSortDirective {
      * @param {?} table
      * @param {?} _el
      */
-    constructor(table$$1, _el) {
-        this.table = table$$1;
+    constructor(table, _el) {
+        this.table = table;
         this._el = _el;
         this.currentSortDirection = "none" /* NONE */;
         this.delay = 0;
@@ -64,7 +64,7 @@ class StSortDirective {
      * @return {?}
      */
     ngOnInit() {
-        this._directive = sort({
+        this._directive = sortDirective({
             table: this.table, pointer: this.pointer, cycle: this.cycle === true || this.cycle === 'true',
             debounceTime: this.delay
         });
@@ -113,8 +113,8 @@ class StFilterDirective {
      * @param {?} table
      * @param {?} _el
      */
-    constructor(table$$1, _el) {
-        this.table = table$$1;
+    constructor(table, _el) {
+        this.table = table;
         this._el = _el;
         this.operator = "includes" /* INCLUDES */;
         this.type = "string" /* STRING */;
@@ -131,7 +131,7 @@ class StFilterDirective {
      * @return {?}
      */
     ngOnInit() {
-        this._directive = filter({
+        this._directive = filterDirective({
             pointer: this.pointer,
             table: this.table,
             operator: this.operator,
@@ -185,8 +185,8 @@ class StSearchDirective {
      * @param {?} table
      * @param {?} _el
      */
-    constructor(table$$1, _el) {
-        this.table = table$$1;
+    constructor(table, _el) {
+        this.table = table;
         this._el = _el;
         this.delay = 300;
         this.flags = 'i';
@@ -208,12 +208,12 @@ class StSearchDirective {
     ngOnInit() {
         const /** @type {?} */ scope = Array.isArray(this.scope) ? this.scope :
             this.scope.split(',').map(p => p.trim());
-        this._directive = search({ scope, table: this.table });
+        this._directive = searchDirective({ scope, table: this.table });
         const { value } = this._directive.state();
         this._el.nativeElement.value = value || '';
         this._inputSubscription = fromEvent(this._el.nativeElement, 'input')
-            .pipe(map(($event) => (/** @type {?} */ ($event.target)).value), debounceTime(this.delay), distinctUntilChanged())
-            .subscribe(v => this.search(v));
+            .pipe(map($event => (/** @type {?} */ ((/** @type {?} */ ($event)).target)).value), debounceTime(this.delay), distinctUntilChanged())
+            .subscribe((v) => this.search(v));
     }
     /**
      * @return {?}
@@ -252,8 +252,8 @@ class StPaginationDirective {
     /**
      * @param {?} table
      */
-    constructor(table$$1) {
-        this.table = table$$1;
+    constructor(table) {
+        this.table = table;
         this.page = 1;
         this.size = 20;
     }
@@ -261,7 +261,7 @@ class StPaginationDirective {
      * @return {?}
      */
     ngOnInit() {
-        this._directive = slice({ table: this.table });
+        this._directive = paginationDirective({ table: this.table });
         this._directive.onSummaryChange(({ page, size, filteredCount }) => {
             this.page = page;
             this.size = size;
@@ -395,8 +395,8 @@ class StTableDirective {
     /**
      * @param {?} table
      */
-    constructor(table$$1) {
-        this.table = table$$1;
+    constructor(table) {
+        this.table = table;
         this.items = [];
         this.busy = false;
         this.display = new EventEmitter();
@@ -458,7 +458,7 @@ class TableState {
     constructor() {
         this.filter = {};
         this.search = {};
-        this.slice = { page: 1, size: 20 };
+        this.slice = {};
         this.sort = {};
     }
 }
@@ -507,10 +507,10 @@ SmartTableModule.decorators = [
  */
 const /** @type {?} */ from$1 = (data, tableState = new TableState(), ...extensions) => {
     const /** @type {?} */ dataArray = [];
-    const /** @type {?} */ table$$1 = table({ data: dataArray, tableState }, ...extensions);
+    const /** @type {?} */ table = smartTable({ data: dataArray, tableState }, ...extensions);
     let /** @type {?} */ source = from(data);
     let /** @type {?} */ subscription;
-    return Object.assign(table$$1, {
+    return /** @type {?} */ (Object.assign(table, {
         /**
          * @return {?}
          */
@@ -518,25 +518,29 @@ const /** @type {?} */ from$1 = (data, tableState = new TableState(), ...extensi
             if (subscription) {
                 subscription.unsubscribe();
             }
-            table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
+            table.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe((items) => {
                 dataArray.splice(0, dataArray.length, ...items);
-                table$$1.exec();
+                table.exec();
             });
         },
         /**
          * @param {?} newData
+         * @param {?=} newTableState
          * @return {?}
          */
-        use(newData) {
+        use(newData, newTableState) {
             subscription.unsubscribe();
+            if (newTableState) {
+                Object.assign(tableState, newTableState);
+            }
             source = of(newData);
-            table$$1.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
+            table.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
                 .subscribe((values) => {
                 dataArray.splice(0, dataArray.length, ...values);
-                table$$1.exec();
+                table.exec();
             });
         },
         /**
@@ -545,7 +549,7 @@ const /** @type {?} */ from$1 = (data, tableState = new TableState(), ...extensi
         ngOnDestroy() {
             subscription.unsubscribe();
         }
-    });
+    }));
 };
 const /** @type {?} */ of$1 = (data, tableState = new TableState(), ...extensions) => from$1(of(data), tableState, ...extensions);
 

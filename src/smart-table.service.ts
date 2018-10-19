@@ -1,30 +1,29 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {
-    SmartTableCore,
-    NgSmartTable,
-    ProcessInput,
-    SmartTableEventEmitter,
-    SearchState,
-    SliceState,
-    SortState, DisplayedItem
-} from './common-types';
-import {TableState} from './table-state';
+    SmartTable as ISmartTable, DisplayedItem, ProcessingOptions, FilterConfiguration, DisplayChangeCallback,
+    SearchConfiguration,
+    SliceConfiguration,
+    SortConfiguration,
+    TableState
+} from 'smart-table-core';
 
 @Injectable()
-export abstract class SmartTable<T> implements SmartTableCore<T>, NgSmartTable<T> {
-    dispatch: (event: string, ...args: any[]) => SmartTableEventEmitter;
+export abstract class SmartTable<T> implements ISmartTable<T>, OnDestroy {
+    dispatch: (event: string, ...args: any[]) => ISmartTable<T>;
     eval: (state?: TableState) => Promise<DisplayedItem<T>[]>;
-    exec: (processInput?: ProcessInput) => void;
-    filter: (filterClause: any) => void;
+    exec: (processInput?: ProcessingOptions) => void;
+    filter: (filterClause: FilterConfiguration) => void;
     getMatchingItems: () => T[];
     getTableState: () => TableState;
     init: () => void;
-    off: (event: string, ...listeners: Function[]) => SmartTableEventEmitter;
-    on: (event: string, ...listeners: Function[]) => SmartTableEventEmitter;
-    onDisplayChange: (handler: Function) => void;
-    search: (newState: SearchState) => void;
-    slice: (newState: SliceState) => void;
-    sort: (newState: SortState) => void;
-    use: (data: T[]) => void;
+    off: (event: string, ...listeners: Function[]) => ISmartTable<T>;
+    on: (event: string, ...listeners: Function[]) => ISmartTable<T>;
+    onDisplayChange: (callback: DisplayChangeCallback<T>) => void;
+    search: (searchState: SearchConfiguration) => void;
+    slice: (sliceState: SliceConfiguration) => void;
+    sort: (sortState: SortConfiguration) => void;
+    use: (data: T[], newTableState ?: TableState) => void;
     ngOnDestroy: () => void;
+    filteredCount: number;
+    length: number;
 }

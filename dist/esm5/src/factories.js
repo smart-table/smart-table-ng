@@ -3,7 +3,7 @@
  * @suppress {checkTypes} checked by tsc
  */
 import { TableState } from './table-state';
-import { table as stTable } from 'smart-table-core';
+import { smartTable as stTable } from 'smart-table-core';
 import { of as observableOf, from as observableFrom } from 'rxjs/index';
 export var /** @type {?} */ from = function (data, tableState) {
     if (tableState === void 0) { tableState = new TableState(); }
@@ -15,7 +15,7 @@ export var /** @type {?} */ from = function (data, tableState) {
     var /** @type {?} */ table = stTable.apply(void 0, [{ data: dataArray, tableState: tableState }].concat(extensions));
     var /** @type {?} */ source = observableFrom(data);
     var /** @type {?} */ subscription;
-    return Object.assign(table, {
+    return /** @type {?} */ (Object.assign(table, {
         init: /**
          * @return {?}
          */
@@ -32,10 +32,14 @@ export var /** @type {?} */ from = function (data, tableState) {
         },
         use: /**
          * @param {?} newData
+         * @param {?=} newTableState
          * @return {?}
          */
-        function (newData) {
+        function (newData, newTableState) {
             subscription.unsubscribe();
+            if (newTableState) {
+                Object.assign(tableState, newTableState);
+            }
             source = observableOf(newData);
             table.dispatch("EXEC_CHANGED" /* EXEC_CHANGED */, { working: true });
             subscription = source
@@ -50,7 +54,7 @@ export var /** @type {?} */ from = function (data, tableState) {
         function () {
             subscription.unsubscribe();
         }
-    });
+    }));
 };
 export var /** @type {?} */ of = function (data, tableState) {
     if (tableState === void 0) { tableState = new TableState(); }

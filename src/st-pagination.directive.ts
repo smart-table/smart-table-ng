@@ -1,6 +1,6 @@
 import {Directive, OnInit, OnDestroy} from '@angular/core';
 import {SmartTable} from './smart-table.service';
-import {slice} from 'smart-table-core';
+import {paginationDirective as slice} from 'smart-table-core';
 
 interface SummaryOutput {
     page: number;

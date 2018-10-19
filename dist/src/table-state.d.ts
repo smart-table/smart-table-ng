@@ -1,7 +1,7 @@
-import { SortState, SliceState, SearchState } from './common-types';
-export declare class TableState {
-    filter: Object;
-    search: SearchState;
-    slice: SliceState;
-    sort: SortState;
+import { TableState as ITableState } from 'smart-table-core';
+export declare class TableState implements ITableState {
+    filter: {};
+    search: {};
+    slice: {};
+    sort: {};
 }

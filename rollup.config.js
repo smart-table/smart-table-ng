@@ -32,26 +32,26 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
  *
  */
 const globals = {
-  '@angular/core': 'ng.core',
-  '@angular/common': 'ng.common',
-  'rxjs': 'rxjs',
-  'rxjs/index': 'rxjs.index',
-  'rxjs/operators': 'rxjs.operators',
-  'smart-table-core': 'smart-table-core'
+    '@angular/core': 'ng.core',
+    '@angular/common': 'ng.common',
+    'rxjs': 'rxjs',
+    'rxjs/index': 'rxjs.index',
+    'rxjs/operators': 'rxjs.operators',
+    'smart-table-core': 'smart-table-core'
 };
 
 export default {
-  external: Object.keys(globals),
-  plugins: [resolve(), sourcemaps()],
-  onwarn: () => {
-    return
-  },
-  output: {
-    format: 'umd',
-    name: 'smart-table-ng',
-    globals: globals,
-    sourcemap: true,
-    exports: 'named',
-    amd: {id: 'smart-table-ng'}
-  }
-}
+    external: Object.keys(globals),
+    plugins: [resolve(), sourcemaps()],
+    onwarn: () => {
+        return;
+    },
+    output: {
+        format: 'umd',
+        name: 'smart-table-ng',
+        globals: globals,
+        sourcemap: true,
+        exports: 'named',
+        amd: {id: 'smart-table-ng'}
+    }
+};

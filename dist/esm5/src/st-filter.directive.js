@@ -4,7 +4,7 @@
  */
 import { Directive, Input, ElementRef } from '@angular/core';
 import { SmartTable } from './smart-table.service';
-import { filter } from 'smart-table-core';
+import { filterDirective as filter } from 'smart-table-core';
 import { fromEvent } from 'rxjs/index';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 /**

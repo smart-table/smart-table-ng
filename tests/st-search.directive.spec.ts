@@ -1,8 +1,6 @@
-import {SmartTable} from '../src/smart-table.service';
-import {StSearchDirective} from '../src/st-search.directive';
+import {SmartTable, StSearchDirective, of} from '../dist';
 import {TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
-import {of} from '../src/factories';
 
 interface User {
     name: string;
@@ -113,7 +111,6 @@ describe('StSearchDirective', () => {
             fixture.detectChanges();
             expect(spy.calls.count()).toBe(1);
             const calls = spy.calls.mostRecent().args;
-            console.log(calls);
             expect(calls).toEqual([{
                 scope: ['name', 'email'],
                 value: 'foo',

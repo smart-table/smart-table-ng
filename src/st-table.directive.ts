@@ -1,8 +1,20 @@
 import {Directive, Output, EventEmitter, OnInit, OnDestroy} from '@angular/core';
 import {SmartTable} from './smart-table.service';
-import {ExecState, SliceState, SortState, StEvents, DisplayedItem} from './common-types';
+import {
+    SortConfiguration,
+    DisplayedItem,
+    FilterConfiguration,
+    SliceConfiguration,
+    WorkingIndicator,
+    SmartTableEvents as StEvents,
+    DisplayChangeCallback,
+    SortChangeCallback,
+    FilterChangeCallback,
+    PageChangeCallback,
+    WorkingIndicatorChangeCallback
+} from 'smart-table-core';
 
-function handleSortChange<T>(this: StTableDirective<T>, state: SortState) {
+function handleSortChange<T>(this: StTableDirective<T>, state: SortConfiguration) {
     this.sort.emit(state);
 }
 
@@ -11,15 +23,15 @@ function handleDisplayChange<T>(this: StTableDirective<T>, items: DisplayedItem<
     this.display.emit(items);
 }
 
-function handleFilterChange<T>(this: StTableDirective<T>, state: any) {
+function handleFilterChange<T>(this: StTableDirective<T>, state: FilterConfiguration) {
     this.filter.emit(state);
 }
 
-function handleSliceChange<T>(this: StTableDirective<T>, state: SliceState) {
+function handleSliceChange<T>(this: StTableDirective<T>, state: SliceConfiguration) {
     this.slice.emit(state);
 }
 
-function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
+function handleExecChange<T>(this: StTableDirective<T>, state: WorkingIndicator) {
     this.busy = state.working;
     this.exec.emit(state);
 }
@@ -32,17 +44,17 @@ function handleExecChange<T>(this: StTableDirective<T>, state: ExecState) {
 export class StTableDirective<T> implements OnInit, OnDestroy {
     items: DisplayedItem<T>[] = [];
     busy = false;
-    private displayHandler: Function;
-    private sortHandler: Function;
-    private filterHandler: Function;
-    private sliceHandler: Function;
-    private execHandler: Function;
+    private displayHandler: DisplayChangeCallback<T>;
+    private sortHandler: SortChangeCallback;
+    private filterHandler: FilterChangeCallback;
+    private sliceHandler: PageChangeCallback;
+    private execHandler: WorkingIndicatorChangeCallback;
 
     @Output() display = new EventEmitter<DisplayedItem<T>[]>();
-    @Output() sort = new EventEmitter<SortState>();
-    @Output() filter = new EventEmitter();
-    @Output() slice = new EventEmitter<SliceState>();
-    @Output() exec = new EventEmitter<ExecState>();
+    @Output() sort = new EventEmitter<SortConfiguration>();
+    @Output() filter = new EventEmitter<FilterConfiguration>();
+    @Output() slice = new EventEmitter<SliceConfiguration>();
+    @Output() exec = new EventEmitter<WorkingIndicator>();
 
     constructor(private table: SmartTable<T>) {
     }
