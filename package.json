@@ -44,7 +44,6 @@
     "@angular/core": ">= 6.0.0"
   },
   "devDependencies": {
-    "tslib": "^1.9.3",
     "@angular/animations": "6.0.0",
     "@angular/common": "6.0.0",
     "@angular/compiler": "6.0.0",
@@ -53,7 +52,7 @@
     "@angular/platform-browser": "6.0.0",
     "@angular/platform-browser-dynamic": "6.0.0",
     "@angular/platform-server": "6.0.0",
-    "@compodoc/compodoc": "^1.1.5",
+    "@compodoc/compodoc": "^1.1.9",
     "@types/jasmine": "2.8.7",
     "@types/node": "10.0.3",
     "angular2-template-loader": "0.6.2",
@@ -74,7 +73,7 @@
     "raw-loader": "0.5.1",
     "reflect-metadata": "0.1.12",
     "rollup": "0.58.2",
-    "rollup-plugin-license": "0.6.0",
+    "rollup-plugin-license": "^0.9.0",
     "rollup-plugin-node-resolve": "3.3.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rxjs": "6.1.0",
@@ -83,6 +82,7 @@
     "source-map-loader": "0.2.3",
     "to-string-loader": "1.1.5",
     "ts-loader": "5.2.2",
+    "tslib": "^1.9.3",
     "tslint": "5.10.0",
     "tslint-angular": "1.1.1",
     "typescript": "2.7.2",
